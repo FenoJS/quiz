@@ -7,28 +7,61 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataLoaded: false,
+      humanPlayerTurn: true,
       roundNumber: 1,
-      categories: [],
-      score: {},
+      apiCategoriesList: null,
+      selectedCategories: [],
+      result: {
+        score: [0, 0],
+        correctAnswers: [],
+      },
     };
 
-    this.addCategory = this.addCategory.bind(this);
+    this.addSelectedCategory = this.addSelectedCategory.bind(this);
   }
 
-  addCategory(category) {
+  async componentDidMount() {
+    if (this.state.apiCategoriesList === null) {
+      try {
+        const res = await fetch('https://opentdb.com/api_category.php');
+        const data = await res.json();
+        this.setState({
+          apiCategoriesList: data.trivia_categories,
+          dataLoaded: true,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  addSelectedCategory(id, name) {
+    console.log(id, name);
     this.setState({
-      categories: category,
+      selectedCategories: [...this.state.selectedCategories, [id, name]],
     });
   }
 
   render() {
-    console.log(this.state.categories.length);
+    if (this.state.selectedCategories.length > 0) {
+      return (
+        <Question
+          categoryID={
+            this.state.selectedCategories[this.state.roundNumber - 1][0]
+          }
+        />
+      );
+    }
     return (
       <Fragment>
-        {this.state.categories.length <= 0 ? (
-          <SelectCategory addCategory={this.addCategory} />
+        {this.state.dataLoaded ? (
+          <SelectCategory
+            addSelectedCategory={this.addSelectedCategory}
+            allCategories={this.state.apiCategoriesList}
+          />
         ) : (
-          <Question />
+          true
         )}
       </Fragment>
     );

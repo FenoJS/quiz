@@ -8,7 +8,7 @@ const FlexContainer = styled.div`
 `;
 
 const Header = styled.h1`
-  font-size: 21px;
+  font-size: 2rem;
   color: #fff;
 `;
 
@@ -19,30 +19,54 @@ const Button = styled.button`
 class SelectCategory extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      categoriesList: null,
+    };
 
-    this.SelectCategory = this.SelectCategory.bind(this);
+    this.selectCategory = this.selectCategory.bind(this);
+    this.getRandomCategories = this.getRandomCategories.bind(this);
   }
 
-  SelectCategory() {
-    console.log(this.props);
-    this.props.addCategory('test');
+  selectCategory(id, name) {
+    this.props.addSelectedCategory(id, name);
+  }
+
+  getRandomCategories() {
+    const newArr = [];
+    while (newArr.length < 3) {
+      const randomItem = this.props.allCategories[
+        Math.floor(Math.random() * this.props.allCategories.length)
+      ];
+      if (newArr.includes(randomItem) === false) {
+        newArr.push(randomItem);
+      }
+    }
+    this.setState({ categoriesList: newArr });
+  }
+  // ??
+  componentWillMount() {
+    if (this.state.categoriesList === null) {
+      this.getRandomCategories();
+    }
   }
 
   render() {
+    console.log(this.state);
     return (
       <FlexContainer>
         <Header>Select Category</Header>
         <ul>
-          <li>
-            <Button onClick={this.SelectCategory}> Cat 1 </Button>
-          </li>
-          <li>
-            <Button> Cat 2 </Button>
-          </li>
-          <li>
-            <Button> Cat 3 </Button>
-          </li>
+          {this.state.categoriesList.map(item => (
+            <li>
+              <Button
+                onClick={() => {
+                  this.selectCategory(item.id, item.name);
+                }}
+              >
+                {item.name}
+              </Button>
+            </li>
+          ))}
         </ul>
       </FlexContainer>
     );

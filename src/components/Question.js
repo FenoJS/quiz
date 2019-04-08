@@ -8,7 +8,7 @@ const FlexContainer = styled.div`
 `;
 
 const Header = styled.h1`
-  font-size: 21px;
+  font-size: 2rem;
   color: #fff;
 `;
 
@@ -20,12 +20,34 @@ class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.getQuestion = this.getQuestion.bind(this);
+  }
+
+  async getQuestion() {
+    try {
+      const res = await fetch(
+        `https://opentdb.com/api.php?amount=1&category=${
+          this.props.categoryID
+        }&difficulty=medium&type=multiple`
+      );
+      const data = await res.json();
+      await this.setState({
+        question: data.results[0],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async componentDidMount() {
+    await this.getQuestion();
   }
 
   render() {
     return (
       <FlexContainer>
-        <Header>Question</Header>
+        <Header>s</Header>
         <ul>
           <li>
             <Button> Answer 1 </Button>
