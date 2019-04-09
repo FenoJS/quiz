@@ -42,6 +42,13 @@ const Avatar = styled.div`
     props.playerAvatar
       ? `url(${props.playerAvatar})`
       : `url(${props.aiAvatar})`};
+  background-size: cover;
+
+  ${({ aiAvatarHover }) =>
+    aiAvatarHover &&
+    `
+    background-image: url(${aiAvatarHover})
+  `}
 `;
 const Buttons = styled.div`
   display: flex;
@@ -55,27 +62,30 @@ const StartingPage = props => {
     <FlexContainer column>
       <Avatars>
         <Avatar playerAvatar={props.playerAvatar} />
-        <Avatar aiAvatar={props.aiAvatar} />
+        <Avatar aiAvatar={props.aiAvatar} aiAvatarHover={props.aiAvatarHover} />
       </Avatars>
       <Buttons>
         <Button
           small
-          onMouseEnter={props.changeAvatar}
-          onClick={props.changeDifficulty}
+          onClick={props.changeAvatarAndDifficulty}
+          onMouseEnter={props.hoverAvatarOn}
+          onMouseLeave={props.hoverAvatarOff}
         >
           Easy
         </Button>
         <Button
           small
-          onMouseEnter={props.changeAvatar}
-          onClick={props.changeDifficulty}
+          onClick={props.changeAvatarAndDifficulty}
+          onMouseEnter={props.hoverAvatarOn}
+          onMouseLeave={props.hoverAvatarOff}
         >
           Medium
         </Button>
         <Button
           small
-          onMouseEnter={props.changeAvatar}
-          onClick={props.changeDifficulty}
+          onClick={props.changeAvatarAndDifficulty}
+          onMouseEnter={props.hoverAvatarOn}
+          onMouseLeave={props.hoverAvatarOff}
         >
           Hard
         </Button>

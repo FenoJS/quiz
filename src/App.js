@@ -47,12 +47,14 @@ class App extends Component {
     this.state = {
       quizRunning: false,
       aiAvatar: AiAvatarMedium,
+      aiAvatarHover: null,
       difficultyLevel: 'medium',
     };
 
     this.startQuiz = this.startQuiz.bind(this);
-    this.changeAvatar = this.changeAvatar.bind(this);
-    this.changeDifficulty = this.changeDifficulty.bind(this);
+    this.changeAvatarAndDifficulty = this.changeAvatarAndDifficulty.bind(this);
+    this.hoverAvatarOn = this.hoverAvatarOn.bind(this);
+    this.hoverAvatarOff = this.hoverAvatarOff.bind(this);
   }
 
   startQuiz() {
@@ -60,9 +62,11 @@ class App extends Component {
       quizRunning: true,
     });
   }
+
   // https://stackoverflow.com/questions/912596/how-to-turn-a-string-into-a-javascript-function-call
-  changeAvatar(event) {
+  changeAvatarAndDifficulty(event) {
     const targetLevel = event.target.innerText;
+    const diffculty = event.target.innerText.toLowerCase();
     let avatar;
     if (targetLevel === 'Easy') {
       avatar = AiAvatarEasy;
@@ -75,13 +79,30 @@ class App extends Component {
     }
     this.setState({
       aiAvatar: avatar,
+      difficultyLevel: diffculty,
+    });
+  }
+  //  should be refactored?
+  hoverAvatarOn(event) {
+    const targetLevel = event.target.innerText;
+    let avatar;
+    if (targetLevel === 'Easy') {
+      avatar = AiAvatarEasy;
+    }
+    if (targetLevel === 'Medium') {
+      avatar = AiAvatarMedium;
+    }
+    if (targetLevel === 'Hard') {
+      avatar = AiAvatarHard;
+    }
+    this.setState({
+      aiAvatarHover: avatar,
     });
   }
 
-  changeDifficulty(event) {
-    const diffculty = event.target.innerText.toLowerCase();
+  hoverAvatarOff() {
     this.setState({
-      difficultyLevel: diffculty,
+      aiAvatarHover: this.state.aiAvatar,
     });
   }
 
@@ -91,14 +112,20 @@ class App extends Component {
         <GlobalStyles />
         <Wrapper>
           {this.state.quizRunning ? (
-            <Quiz playerAvatar={playerAvatar} aiAvatar={this.state.aiAvatar} />
+            <Quiz
+              playerAvatar={playerAvatar}
+              aiAvatar={this.state.aiAvatar}
+              diffculty={this.state.difficultyLevel}
+            />
           ) : (
             <StartingPage
               startQuiz={this.startQuiz}
               playerAvatar={playerAvatar}
               aiAvatar={this.state.aiAvatar}
-              changeAvatar={this.changeAvatar}
-              changeDifficulty={this.changeDifficulty}
+              aiAvatarHover={this.state.aiAvatarHover}
+              changeAvatarAndDifficulty={this.changeAvatarAndDifficulty}
+              hoverAvatarOn={this.hoverAvatarOn}
+              hoverAvatarOff={this.hoverAvatarOff}
             />
           )}
         </Wrapper>
