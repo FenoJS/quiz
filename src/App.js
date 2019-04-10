@@ -38,7 +38,8 @@ background: linear-gradient(45deg, rgba(81,49,207,1) 0%, rgba(252,70,165,1) 100%
 
 const Wrapper = styled.div`
   width: 46.5rem;
-  height: 82.5rem;
+  height: 100%
+  max-height: 82.5rem;
 `;
 
 class App extends Component {
@@ -66,7 +67,7 @@ class App extends Component {
   // https://stackoverflow.com/questions/912596/how-to-turn-a-string-into-a-javascript-function-call
   changeAvatarAndDifficulty(event) {
     const targetLevel = event.target.innerText;
-    const diffculty = event.target.innerText.toLowerCase();
+    const difficulty = event.target.innerText.toLowerCase();
     let avatar;
     if (targetLevel === 'Easy') {
       avatar = AiAvatarEasy;
@@ -79,7 +80,7 @@ class App extends Component {
     }
     this.setState({
       aiAvatar: avatar,
-      difficultyLevel: diffculty,
+      difficultyLevel: difficulty,
     });
   }
   //  should be refactored?
@@ -115,7 +116,7 @@ class App extends Component {
             <Quiz
               playerAvatar={playerAvatar}
               aiAvatar={this.state.aiAvatar}
-              diffculty={this.state.difficultyLevel}
+              difficulty={this.state.difficultyLevel}
             />
           ) : (
             <StartingPage

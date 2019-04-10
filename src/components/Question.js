@@ -1,39 +1,34 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
-
-const Header = styled.h1`
-  font-size: 2rem;
-  color: #fff;
-`;
-
-const Button = styled.button`
-  color: fff;
-`;
+import { shuffle } from '../utils/shuffle';
+import QuestionView from './QuestionView';
 
 class Question extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dataLoaded: false,
+      questionAnswered: false,
+    };
 
-    this.getQuestion = this.getQuestion.bind(this);
+    this.getQuestionData = this.getQuestionData.bind(this);
+    this.getAnswersList = this.getAnswersList.bind(this);
+    this.getSelectedAnswer = this.getSelectedAnswer.bind(this);
+    this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
   }
 
-  async getQuestion() {
+  async getQuestionData() {
     try {
       const res = await fetch(
         `https://opentdb.com/api.php?amount=1&category=${
           this.props.categoryID
-        }&difficulty=medium&type=multiple`
+        }&difficulty=${this.props.difficulty}&type=multiple`
       );
       const data = await res.json();
       await this.setState({
         question: data.results[0],
+        correctAnswer: data.results[0].correct_answer,
+        selectedAnswer: null,
       });
     } catch (err) {
       console.log(err);
@@ -41,25 +36,55 @@ class Question extends Component {
   }
 
   async componentDidMount() {
-    await this.getQuestion();
+    await this.getQuestionData();
+    await this.getAnswersList();
+    await this.setState({
+      dataLoaded: true,
+    });
+  }
+
+  async getAnswersList() {
+    try {
+      const answersList = [
+        this.state.question.correct_answer,
+        ...this.state.question.incorrect_answers,
+      ];
+      this.setState({ answers: shuffle(answersList) });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  getSelectedAnswer(event) {
+    const answer = event.target.innerText;
+    this.setState({
+      selectedAnswer: answer,
+      questionAnswered: true,
+    });
+  }
+
+  showCorrectAnswer(item) {
+    if (this.state.selectedAnswer) {
+      console.log(item === this.state.selectedAnswer);
+      if (this.state.correctAnswer === item) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   render() {
     return (
-      <FlexContainer>
-        <Header>s</Header>
-        <ul>
-          <li>
-            <Button> Answer 1 </Button>
-          </li>
-          <li>
-            <Button> Answer 2 </Button>
-          </li>
-          <li>
-            <Button> Answer 3 </Button>
-          </li>
-        </ul>
-      </FlexContainer>
+      this.state.dataLoaded && (
+        <QuestionView
+          question={this.state.question}
+          answers={this.state.answers}
+          getSelectedAnswer={this.getSelectedAnswer}
+          showCorrectAnswer={this.showCorrectAnswer}
+          isQuestionAnswered={this.state.questionAnswered}
+        />
+      )
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import SelectCategory from './SelectCategory';
+import Category from './Category';
 import Question from './Question';
 
 class Quiz extends Component {
@@ -50,13 +50,14 @@ class Quiz extends Component {
           categoryID={
             this.state.selectedCategories[this.state.roundNumber - 1][0]
           }
+          difficulty={this.props.difficulty}
         />
       );
     }
     return (
       <Fragment>
         {this.state.dataLoaded ? (
-          <SelectCategory
+          <Category
             addSelectedCategory={this.addSelectedCategory}
             allCategories={this.state.apiCategoriesList}
           />

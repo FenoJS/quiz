@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const FlexContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   flex-direction: ${props => (props.column ? 'column' : 'row')};
   background: rgb(90, 80, 145);
@@ -28,14 +28,10 @@ const Button = styled.button`
 
 const Avatars = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
 `;
 
 const Avatar = styled.div`
-  width: 20rem;
-  height: 20rem;
   border: 5px solid red;
   border-radius: 50%;
   background-image: ${props =>
@@ -43,6 +39,10 @@ const Avatar = styled.div`
       ? `url(${props.playerAvatar})`
       : `url(${props.aiAvatar})`};
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-bottom: 50%;
+  width: 50%;
 
   ${({ aiAvatarHover }) =>
     aiAvatarHover &&
@@ -64,6 +64,8 @@ const StartingPage = props => {
         <Avatar playerAvatar={props.playerAvatar} />
         <Avatar aiAvatar={props.aiAvatar} aiAvatarHover={props.aiAvatarHover} />
       </Avatars>
+
+      <h2>select difficulty</h2>
       <Buttons>
         <Button
           small
