@@ -26,8 +26,13 @@ class Quiz extends Component {
       try {
         const res = await fetch('https://opentdb.com/api_category.php');
         const data = await res.json();
+        console.log(data);
+        const filteredCategories = data.trivia_categories.map(item => {
+          item.name = item.name.replace('Entertainment: ', '');
+          return item;
+        });
         this.setState({
-          apiCategoriesList: data.trivia_categories,
+          apiCategoriesList: filteredCategories,
           dataLoaded: true,
         });
       } catch (err) {

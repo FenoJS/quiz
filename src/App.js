@@ -17,8 +17,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background: rgb(81,49,207);
-background: linear-gradient(45deg, rgba(81,49,207,1) 0%, rgba(252,70,165,1) 100%);
+    background: linear-gradient(45deg, rgba(81,49,207,1) 0%, rgba(252,70,165,1) 100%);
   }
 
   #root {
@@ -32,14 +31,22 @@ background: linear-gradient(45deg, rgba(81,49,207,1) 0%, rgba(252,70,165,1) 100%
   *::before,
   *::after {
     box-sizing: inherit;
+    margin: 0;
+    padding: 0;
   }
 
 `;
 
 const Wrapper = styled.div`
   width: 46.5rem;
-  height: 100%
+  height: 100%;
   max-height: 82.5rem;
+  background: rgb(90, 80, 145);
+  background: linear-gradient(
+    180deg,
+    rgba(90, 80, 145, 1) 4%,
+    rgba(18, 15, 24, 1) 98%
+  );
 `;
 
 class App extends Component {

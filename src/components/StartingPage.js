@@ -6,12 +6,6 @@ const FlexContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   flex-direction: ${props => (props.column ? 'column' : 'row')};
-  background: rgb(90, 80, 145);
-  background: linear-gradient(
-    180deg,
-    rgba(90, 80, 145, 1) 4%,
-    rgba(18, 15, 24, 1) 98%
-  );
   height: 100%;
   padding: 2rem;
 `;
