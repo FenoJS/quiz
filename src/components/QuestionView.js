@@ -7,7 +7,8 @@ const FlexContainer = styled.div`
   height: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 2rem 6rem 2rem;
+  position: relative;
 `;
 
 const Header = styled.h1`
@@ -59,8 +60,32 @@ ${props => console.log(props)}
   height: 11.5rem;
 `;
 
+const ClickInfo = styled.span`
+  position: absolute;
+  color: rgba(255, 255, 255, 0.58);
+  bottom: 2rem;
+  font-size: 2rem;
+
+  ::after {
+    content: '';
+    position: absolute;
+    top: 53%;
+    width: 8%;
+    right: -2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.58);
+  }
+
+  ::before {
+    content: '';
+    position: absolute;
+    top: 53%;
+    width: 8%;
+    left: -2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.58);
+  }
+`;
+
 const QuestionView = props => {
-  console.log(props.isQuestionAnswered);
   return (
     <FlexContainer>
       <Header>
@@ -87,6 +112,7 @@ const QuestionView = props => {
                   onClick={props.getSelectedAnswer}
                   isAnswerCorrect={props.showCorrectAnswer(item)}
                   answered
+                  disabled
                 >
                   {item}
                 </Button>
@@ -95,6 +121,7 @@ const QuestionView = props => {
           }
         })}
       </List>
+      {props.isQuestionAnswered && <ClickInfo>Tap to continue</ClickInfo>}
     </FlexContainer>
   );
 };

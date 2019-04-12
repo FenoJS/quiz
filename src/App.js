@@ -44,7 +44,7 @@ const GlobalStyles = createGlobalStyle`
 const Wrapper = styled.div`
   width: 46.5rem;
   height: 100%;
-  max-height: 82.5rem;
+  max-height: 88.5rem;
   /* background: linear-gradient(
     180deg,
     rgba(90, 80, 145, 1) 4%,

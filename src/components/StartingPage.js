@@ -22,6 +22,7 @@ const Button = styled.button`
 
 const Avatars = styled.div`
   display: flex;
+  justify-content: space-around;
   width: 100%;
 `;
 
@@ -35,8 +36,12 @@ const Avatar = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding-bottom: 50%;
-  width: 50%;
+  /* padding-bottom: 50%;
+  width: 50%; */
+  width: 35vw;
+  height: 35vw;
+  max-width: 20rem;
+  max-height: 20rem;
 
   ${({ aiAvatarHover }) =>
     aiAvatarHover &&
