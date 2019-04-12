@@ -14,7 +14,7 @@ class Quiz extends Component {
       selectedCategories: [],
       result: {
         score: [0, 0],
-        correctAnswers: [],
+        selectedAnswers: [{}, {}],
       },
     };
 

@@ -9,25 +9,29 @@ class Question extends Component {
     this.state = {
       dataLoaded: false,
       questionAnswered: false,
+      currentQuestionNum: 1,
+      selectedAnswersList: [],
     };
 
-    this.getQuestionData = this.getQuestionData.bind(this);
+    this.getQuestionsData = this.getQuestionsData.bind(this);
     this.getAnswersList = this.getAnswersList.bind(this);
     this.getSelectedAnswer = this.getSelectedAnswer.bind(this);
     this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
+    this.continueQuiz = this.continueQuiz.bind(this);
   }
 
-  async getQuestionData() {
+  async getQuestionsData() {
     try {
       const res = await fetch(
-        `https://opentdb.com/api.php?amount=1&category=${
+        `https://opentdb.com/api.php?amount=3&category=${
           this.props.categoryID
         }&difficulty=${this.props.difficulty}&type=multiple`
       );
       const data = await res.json();
       await this.setState({
-        question: data.results[0],
-        correctAnswer: data.results[0].correct_answer,
+        questions: data.results,
+        correctAnswer:
+          data.results[this.state.currentQuestionNum - 1].correct_answer,
         selectedAnswer: null,
       });
     } catch (err) {
@@ -36,7 +40,7 @@ class Question extends Component {
   }
 
   async componentDidMount() {
-    await this.getQuestionData();
+    await this.getQuestionsData();
     await this.getAnswersList();
     await this.setState({
       dataLoaded: true,
@@ -46,8 +50,9 @@ class Question extends Component {
   async getAnswersList() {
     try {
       const answersList = [
-        this.state.question.correct_answer,
-        ...this.state.question.incorrect_answers,
+        this.state.questions[this.state.currentQuestionNum - 1].correct_answer,
+        ...this.state.questions[this.state.currentQuestionNum - 1]
+          .incorrect_answers,
       ];
       this.setState({ answers: shuffle(answersList) });
     } catch (err) {
@@ -57,9 +62,16 @@ class Question extends Component {
 
   getSelectedAnswer(event) {
     const answer = event.target.innerText;
+    let isAnswerCorrect;
+    if (answer === this.state.correctAnswer) {
+      isAnswerCorrect = true;
+    } else {
+      isAnswerCorrect = false;
+    }
     this.setState({
       selectedAnswer: answer,
       questionAnswered: true,
+      selectedAnswersList: [...this.state.selectedAnswersList, isAnswerCorrect],
     });
   }
 
@@ -79,15 +91,30 @@ class Question extends Component {
     }
   }
 
+  async continueQuiz() {
+    await this.setState({
+      questionAnswered: false,
+      currentQuestionNum: this.state.currentQuestionNum + 1,
+      correctAnswer: this.state.questions[this.state.currentQuestionNum]
+        .correct_answer,
+    });
+    await this.getAnswersList();
+  }
+
   render() {
     return (
       this.state.dataLoaded && (
         <QuestionView
-          question={this.state.question}
+          question={this.state.questions[this.state.currentQuestionNum - 1]}
           answers={this.state.answers}
           getSelectedAnswer={this.getSelectedAnswer}
           showCorrectAnswer={this.showCorrectAnswer}
+          aselectedAnswersList={this.state.selectedAnswersList}
+          answersBarLength={this.state.questions}
           isQuestionAnswered={this.state.questionAnswered}
+          continueQuiz={
+            this.state.questionAnswered ? this.continueQuiz : undefined
+          }
         />
       )
     );

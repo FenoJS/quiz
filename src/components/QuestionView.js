@@ -11,6 +11,26 @@ const FlexContainer = styled.div`
   position: relative;
 `;
 
+const AnswersBar = styled.ul`
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  width: 100%;
+  position: absolute;
+  top: 10px;
+`;
+
+const AnswersBarItem = styled.li`
+  background-color: ${props =>
+    (props.correct && '#4cff9d') ||
+    (props.wrong && '#ff4545') ||
+    'rgba(255, 255, 255, 0.08)'};
+  width: 4rem;
+  height: 5px;
+  border-radius: 2rem;
+  margin-right: 5px;
+`;
+
 const Header = styled.h1`
   font-size: 2rem;
   color: #fff;
@@ -37,7 +57,6 @@ const ListItem = styled.li`
 // rgba(0, 0, 0, 0.51);
 
 const Button = styled.button`
-${props => console.log(props)}
   background-color: ${({ isAnswerCorrect, answered }) =>
     (isAnswerCorrect === 'answerCorrect' && '#4cff9d') ||
     (isAnswerCorrect === 'answerWrongShowCorrect' && '#534f63') ||
@@ -86,8 +105,19 @@ const ClickInfo = styled.span`
 `;
 
 const QuestionView = props => {
+  console.log();
   return (
-    <FlexContainer>
+    <FlexContainer onClick={props.continueQuiz}>
+      <AnswersBar>
+        {props.answersBarLength.map((item, i) => {
+          if (props.aselectedAnswersList[i] === true) {
+            return <AnswersBarItem correct />;
+          }
+          if (props.aselectedAnswersList[i] === false) {
+            return <AnswersBarItem wrong />;
+          } else return <AnswersBarItem />;
+        })}
+      </AnswersBar>
       <Header>
         {
           (props.question.category = props.question.category.replace(
