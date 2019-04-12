@@ -64,12 +64,17 @@ class Question extends Component {
   }
 
   showCorrectAnswer(item) {
-    if (this.state.selectedAnswer) {
-      console.log(item === this.state.selectedAnswer);
+    if (this.state.questionAnswered) {
+      if (this.state.correctAnswer !== this.state.selectedAnswer) {
+        if (item === this.state.selectedAnswer) {
+          return 'answerWrong';
+        }
+        if (item === this.state.correctAnswer) {
+          return 'answerWrongShowCorrect';
+        }
+      }
       if (this.state.correctAnswer === item) {
-        return true;
-      } else {
-        return false;
+        return 'answerCorrect';
       }
     }
   }

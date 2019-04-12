@@ -18,6 +18,10 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     background: linear-gradient(45deg, rgba(81,49,207,1) 0%, rgba(252,70,165,1) 100%);
+
+}
+
+
   }
 
   #root {
@@ -41,11 +45,15 @@ const Wrapper = styled.div`
   width: 46.5rem;
   height: 100%;
   max-height: 82.5rem;
-  background: rgb(90, 80, 145);
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
     rgba(90, 80, 145, 1) 4%,
     rgba(18, 15, 24, 1) 98%
+  ); */
+  background: linear-gradient(
+    180deg,
+    rgb(63, 51, 128) 10%,
+    rgba(18, 15, 24, 1) 64%
   );
 `;
 
