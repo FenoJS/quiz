@@ -84,36 +84,106 @@ const Category = styled.span`
   font-size: 1.5rem;
 `;
 
+const Button = styled.button`
+  width: 100%;
+`;
+
 const ResultsTable = props => {
+  const round = [1, 2, 3, 4, 5];
+  console.log(props.roundNumber);
   return (
     <FlexContainer>
       <ScoreContainer>
         <Avatar playerAvatar={props.playerAvatar} />
         <Score>
-          <Point>7</Point>:<Point>10</Point>
+          <Point>{props.score[0]}</Point>:<Point>{props.score[1]}</Point>
         </Score>
         <Avatar aiAvatar={props.aiAvatar} />
       </ScoreContainer>
       <QuizStateContainer>
-        <QuizRow>
-          <AnswersBar>
-            <AnswersBarItem correct />
-            <AnswersBarItem wrong />
-            <AnswersBarItem correct />
-          </AnswersBar>
-          <RoundInfo>
-            <Round>Round 1</Round>
-            <Category>{props.categories[0][1]}</Category>
-          </RoundInfo>
-          <AnswersBar>
-            <AnswersBarItem wrong />
-            <AnswersBarItem correct />
-            <AnswersBarItem wrong />
-          </AnswersBar>
-        </QuizRow>
+        {round.map(item => (
+          <QuizRow>
+            <AnswersBar>
+              <AnswersBarItem correct />
+              <AnswersBarItem wrong />
+              <AnswersBarItem correct />
+            </AnswersBar>
+            <RoundInfo>
+              <Round>Round {item}</Round>
+              {item <= props.roundNumber - 1 ? (
+                <Category>{props.categories[item - 1][1]}</Category>
+              ) : (
+                <Category>.</Category>
+              )}
+            </RoundInfo>
+            <AnswersBar>
+              <AnswersBarItem wrong />
+              <AnswersBarItem correct />
+              <AnswersBarItem wrong />
+            </AnswersBar>
+          </QuizRow>
+        ))}
       </QuizStateContainer>
+      <Button onClick={props.continueQuiz}>Play!</Button>
     </FlexContainer>
   );
 };
 
 export default ResultsTable;
+
+// const round = [1, 2, 3, 4, 5];
+
+// {
+//   round.map(item => {
+//     <QuizRow>
+//       <AnswersBar>
+//         <AnswersBarItem correct />
+//         <AnswersBarItem wrong />
+//         <AnswersBarItem correct />
+//       </AnswersBar>
+//       <RoundInfo>
+//         <Round>Round 1</Round>
+//         <Category>{props.categories[0][1]}</Category>
+//       </RoundInfo>
+//       <AnswersBar>
+//         <AnswersBarItem wrong />
+//         <AnswersBarItem correct />
+//         <AnswersBarItem wrong />
+//       </AnswersBar>
+//     </QuizRow>;
+//   });
+// }
+
+// const ResultsTable = props => {
+//   return (
+//     <FlexContainer>
+//       <ScoreContainer>
+//         <Avatar playerAvatar={props.playerAvatar} />
+//         <Score>
+//           <Point>{props.score[0]}</Point>:<Point>{props.score[1]}</Point>
+//         </Score>
+//         <Avatar aiAvatar={props.aiAvatar} />
+//       </ScoreContainer>
+//       <QuizStateContainer>
+//         <QuizRow>
+//           <AnswersBar>
+//             <AnswersBarItem correct />
+//             <AnswersBarItem wrong />
+//             <AnswersBarItem correct />
+//           </AnswersBar>
+//           <RoundInfo>
+//             <Round>Round 1</Round>
+//             <Category>{props.categories[0][1]}</Category>
+//           </RoundInfo>
+//           <AnswersBar>
+//             <AnswersBarItem wrong />
+//             <AnswersBarItem correct />
+//             <AnswersBarItem wrong />
+//           </AnswersBar>
+//         </QuizRow>
+//       </QuizStateContainer>
+//     </FlexContainer>
+//   );
+// };
+
+// export default ResultsTable;

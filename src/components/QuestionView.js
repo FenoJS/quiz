@@ -110,10 +110,10 @@ const QuestionView = props => {
     <FlexContainer onClick={props.continueQuiz}>
       <AnswersBar>
         {props.answersBarLength.map((item, i) => {
-          if (props.aselectedAnswersList[i] === true) {
+          if (props.selectedAnswersList[i] === true) {
             return <AnswersBarItem correct />;
           }
-          if (props.aselectedAnswersList[i] === false) {
+          if (props.selectedAnswersList[i] === false) {
             return <AnswersBarItem wrong />;
           } else return <AnswersBarItem />;
         })}

@@ -115,6 +115,8 @@ class Question extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.allQuestionsAnswered === true) {
       this.props.isQuestionsRoundFinished();
+      console.log(this.state.selectedAnswersList);
+      this.props.getSelectedAnswers(this.state.selectedAnswersList);
     }
   }
 
@@ -126,7 +128,7 @@ class Question extends Component {
           answers={this.state.answers}
           getSelectedAnswer={this.getSelectedAnswer}
           showCorrectAnswer={this.showCorrectAnswer}
-          aselectedAnswersList={this.state.selectedAnswersList}
+          selectedAnswersList={this.state.selectedAnswersList}
           answersBarLength={this.state.questions}
           isQuestionAnswered={this.state.questionAnswered}
           continueQuiz={
