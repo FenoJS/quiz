@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import Category from './Category';
 import Question from './Question';
+import ResultsTable from './ResultsTable';
 
 class Quiz extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Quiz extends Component {
     };
 
     this.addSelectedCategory = this.addSelectedCategory.bind(this);
+    this.isQuestionsRoundFinished = this.isQuestionsRoundFinished.bind(this);
   }
 
   async componentDidMount() {
@@ -28,7 +30,7 @@ class Quiz extends Component {
         const data = await res.json();
         console.log(data);
         const filteredCategories = data.trivia_categories.map(item => {
-          item.name = item.name.replace('Entertainment: ', '');
+          item.name = item.name.replace(/Entertainment: |Science: /g, '');
           return item;
         });
         this.setState({
@@ -48,10 +50,28 @@ class Quiz extends Component {
     });
   }
 
+  isQuestionsRoundFinished() {
+    this.setState({
+      roundNumber: this.state.roundNumber + 1,
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.roundNumber !== this.state.roundNumber) {
+      this.setState({
+        renderCategory: true,
+      });
+    }
+  }
+
   render() {
-    if (this.state.selectedCategories.length > 0) {
+    if (
+      this.state.selectedCategories.length > 0 &&
+      this.state.roundNumber === 1
+    ) {
       return (
         <Question
+          isQuestionsRoundFinished={this.isQuestionsRoundFinished}
           categoryID={
             this.state.selectedCategories[this.state.roundNumber - 1][0]
           }
@@ -59,9 +79,18 @@ class Quiz extends Component {
         />
       );
     }
+    if (this.state.roundNumber === 2) {
+      return (
+        <ResultsTable
+          playerAvatar={this.props.playerAvatar}
+          aiAvatar={this.props.aiAvatar}
+          categories={this.state.selectedCategories}
+        />
+      );
+    }
     return (
       <Fragment>
-        {this.state.dataLoaded ? (
+        {this.state.dataLoaded || this.state.renderCategory ? (
           <Category
             addSelectedCategory={this.addSelectedCategory}
             allCategories={this.state.apiCategoriesList}

@@ -121,7 +121,7 @@ const QuestionView = props => {
       <Header>
         {
           (props.question.category = props.question.category.replace(
-            'Entertainment: ',
+            /Entertainment: |Science: /g,
             ''
           ))
         }

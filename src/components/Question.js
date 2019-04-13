@@ -11,6 +11,7 @@ class Question extends Component {
       questionAnswered: false,
       currentQuestionNum: 1,
       selectedAnswersList: [],
+      allQuestionsAnswered: false,
     };
 
     this.getQuestionsData = this.getQuestionsData.bind(this);
@@ -92,13 +93,29 @@ class Question extends Component {
   }
 
   async continueQuiz() {
-    await this.setState({
-      questionAnswered: false,
-      currentQuestionNum: this.state.currentQuestionNum + 1,
-      correctAnswer: this.state.questions[this.state.currentQuestionNum]
-        .correct_answer,
-    });
-    await this.getAnswersList();
+    if (this.state.currentQuestionNum < 3) {
+      await this.setState({
+        questionAnswered: false,
+        currentQuestionNum: this.state.currentQuestionNum + 1,
+        correctAnswer: this.state.questions[this.state.currentQuestionNum]
+          .correct_answer,
+      });
+      await this.getAnswersList();
+    }
+    if (
+      this.state.currentQuestionNum === 3 &&
+      this.state.questionAnswered === true
+    ) {
+      this.setState({
+        allQuestionsAnswered: true,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.allQuestionsAnswered === true) {
+      this.props.isQuestionsRoundFinished();
+    }
   }
 
   render() {
