@@ -118,6 +118,7 @@ class Quiz extends Component {
             score={this.state.score}
             roundNumber={this.state.roundNumber}
             continueQuiz={this.continueQuiz}
+            playerAnswers={this.state.selectedAnswersByPlayer}
           />
         );
       }

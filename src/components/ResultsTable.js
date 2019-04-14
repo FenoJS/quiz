@@ -48,6 +48,7 @@ const QuizStateContainer = styled.div`
 
 const QuizRow = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const AnswersBar = styled.ul`
@@ -73,14 +74,15 @@ const RoundInfo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: ${props => (props.highlight && '#fff') || 'rgba(158, 158, 158, 0.56)'};
+  height: 7rem;
+  width: 80%;
 `;
 
 const Round = styled.span`
-  color: #fff;
   font-size: 2rem;
 `;
 const Category = styled.span`
-  color: #fff;
   font-size: 1.5rem;
 `;
 
@@ -90,7 +92,7 @@ const Button = styled.button`
 
 const ResultsTable = props => {
   const round = [1, 2, 3, 4, 5];
-  console.log(props.roundNumber);
+  console.log(props.playerAnswers);
   return (
     <FlexContainer>
       <ScoreContainer>
@@ -104,22 +106,40 @@ const ResultsTable = props => {
         {round.map(item => (
           <QuizRow>
             <AnswersBar>
-              <AnswersBarItem correct />
-              <AnswersBarItem wrong />
-              <AnswersBarItem correct />
-            </AnswersBar>
-            <RoundInfo>
-              <Round>Round {item}</Round>
               {item <= props.roundNumber - 1 ? (
-                <Category>{props.categories[item - 1][1]}</Category>
+                props.playerAnswers[item - 1].map(answer => {
+                  if (answer === true) {
+                    return <AnswersBarItem correct />;
+                  }
+                  if (answer === false) {
+                    return <AnswersBarItem wrong />;
+                  } else return <AnswersBarItem />;
+                })
               ) : (
-                <Category>.</Category>
+                <AnswersBar>
+                  <AnswersBarItem />
+                  <AnswersBarItem />
+                  <AnswersBarItem />
+                </AnswersBar>
               )}
-            </RoundInfo>
+            </AnswersBar>
+            {item <= props.roundNumber - 1 ? (
+              <RoundInfo
+                highlight={item === props.roundNumber - 1 ? true : null}
+              >
+                <Round>Round {item}</Round>
+                <Category>{props.categories[item - 1][1]}</Category>
+              </RoundInfo>
+            ) : (
+              <RoundInfo>
+                <Round>Round {item}</Round>
+                <Category />
+              </RoundInfo>
+            )}
             <AnswersBar>
-              <AnswersBarItem wrong />
-              <AnswersBarItem correct />
-              <AnswersBarItem wrong />
+              <AnswersBarItem />
+              <AnswersBarItem />
+              <AnswersBarItem />
             </AnswersBar>
           </QuizRow>
         ))}
