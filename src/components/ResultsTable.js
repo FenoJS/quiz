@@ -62,6 +62,7 @@ const AnswersBarItem = styled.li`
   background-color: ${props =>
     (props.correct && '#4cff9d') ||
     (props.wrong && '#ff4545') ||
+    (props.highlight && 'rgba(255,255,255,0.58)') ||
     'rgba(255, 255, 255, 0.08)'};
   width: 4rem;
   height: 5px;
@@ -93,6 +94,7 @@ const Button = styled.button`
 const ResultsTable = props => {
   const round = [1, 2, 3, 4, 5];
   console.log(props.playerAnswers);
+  console.log(props.aiAnswers);
   return (
     <FlexContainer>
       <ScoreContainer>
@@ -106,8 +108,52 @@ const ResultsTable = props => {
         {round.map(item => (
           <QuizRow>
             <AnswersBar>
-              {item <= props.roundNumber - 1 ? (
-                props.playerAnswers[item - 1].map(answer => {
+              {item <= props.roundNumber ? (
+                props.playerAnswers[item - 1] ? (
+                  props.playerAnswers[item - 1].map(answer => {
+                    console.log(item, props.roundNumber);
+                    if (answer === true) {
+                      return <AnswersBarItem correct />;
+                    }
+                    if (answer === false) {
+                      return <AnswersBarItem wrong />;
+                    } else return <AnswersBarItem />;
+                  })
+                ) : (
+                  <AnswersBar>
+                    <AnswersBarItem />
+                    <AnswersBarItem />
+                    <AnswersBarItem />
+                  </AnswersBar>
+                )
+              ) : (
+                <AnswersBar>
+                  <AnswersBarItem />
+                  <AnswersBarItem />
+                  <AnswersBarItem />
+                </AnswersBar>
+              )}
+            </AnswersBar>
+            {item <= props.roundNumber ? (
+              <RoundInfo highlight={item === props.roundNumber ? true : null}>
+                <Round>Round {item}</Round>
+                <Category>{props.categories[item - 1][1]}</Category>
+              </RoundInfo>
+            ) : (
+              <RoundInfo>
+                <Round>Round {item}</Round>
+                <Category />
+              </RoundInfo>
+            )}
+            <AnswersBar>
+              {item === props.roundNumber ? (
+                <AnswersBar>
+                  <AnswersBarItem highlight />
+                  <AnswersBarItem highlight />
+                  <AnswersBarItem highlight />
+                </AnswersBar>
+              ) : item <= props.roundNumber - 1 ? (
+                props.aiAnswers[item - 1].map(answer => {
                   if (answer === true) {
                     return <AnswersBarItem correct />;
                   }
@@ -123,87 +169,12 @@ const ResultsTable = props => {
                 </AnswersBar>
               )}
             </AnswersBar>
-            {item <= props.roundNumber - 1 ? (
-              <RoundInfo
-                highlight={item === props.roundNumber - 1 ? true : null}
-              >
-                <Round>Round {item}</Round>
-                <Category>{props.categories[item - 1][1]}</Category>
-              </RoundInfo>
-            ) : (
-              <RoundInfo>
-                <Round>Round {item}</Round>
-                <Category />
-              </RoundInfo>
-            )}
-            <AnswersBar>
-              <AnswersBarItem />
-              <AnswersBarItem />
-              <AnswersBarItem />
-            </AnswersBar>
           </QuizRow>
         ))}
       </QuizStateContainer>
-      <Button onClick={props.continueQuiz}>Play!</Button>
+      {props.playButton && <Button onClick={props.continueQuiz}>Play!</Button>}
     </FlexContainer>
   );
 };
 
 export default ResultsTable;
-
-// const round = [1, 2, 3, 4, 5];
-
-// {
-//   round.map(item => {
-//     <QuizRow>
-//       <AnswersBar>
-//         <AnswersBarItem correct />
-//         <AnswersBarItem wrong />
-//         <AnswersBarItem correct />
-//       </AnswersBar>
-//       <RoundInfo>
-//         <Round>Round 1</Round>
-//         <Category>{props.categories[0][1]}</Category>
-//       </RoundInfo>
-//       <AnswersBar>
-//         <AnswersBarItem wrong />
-//         <AnswersBarItem correct />
-//         <AnswersBarItem wrong />
-//       </AnswersBar>
-//     </QuizRow>;
-//   });
-// }
-
-// const ResultsTable = props => {
-//   return (
-//     <FlexContainer>
-//       <ScoreContainer>
-//         <Avatar playerAvatar={props.playerAvatar} />
-//         <Score>
-//           <Point>{props.score[0]}</Point>:<Point>{props.score[1]}</Point>
-//         </Score>
-//         <Avatar aiAvatar={props.aiAvatar} />
-//       </ScoreContainer>
-//       <QuizStateContainer>
-//         <QuizRow>
-//           <AnswersBar>
-//             <AnswersBarItem correct />
-//             <AnswersBarItem wrong />
-//             <AnswersBarItem correct />
-//           </AnswersBar>
-//           <RoundInfo>
-//             <Round>Round 1</Round>
-//             <Category>{props.categories[0][1]}</Category>
-//           </RoundInfo>
-//           <AnswersBar>
-//             <AnswersBarItem wrong />
-//             <AnswersBarItem correct />
-//             <AnswersBarItem wrong />
-//           </AnswersBar>
-//         </QuizRow>
-//       </QuizStateContainer>
-//     </FlexContainer>
-//   );
-// };
-
-// export default ResultsTable;

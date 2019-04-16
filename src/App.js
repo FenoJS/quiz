@@ -14,6 +14,10 @@ const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-size: 62.5%;
+
+    @media (max-width: 600px) {
+      font-size: 50%; /* 1rem = 8px */
+    }
   }
 
   body {

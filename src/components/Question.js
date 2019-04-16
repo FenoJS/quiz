@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { shuffle } from '../utils/shuffle';
+import { shuffle } from '../utils/utils';
 import QuestionView from './QuestionView';
 
 class Question extends Component {
@@ -113,8 +113,8 @@ class Question extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.allQuestionsAnswered === true) {
-      this.props.isQuestionsRoundFinished();
+    if (prevState.allQuestionsAnswered !== this.state.allQuestionsAnswered) {
+      // this.props.isQuestionsRoundFinished();
       console.log(this.state.selectedAnswersList);
       this.props.getSelectedAnswers(this.state.selectedAnswersList);
     }

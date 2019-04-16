@@ -10,16 +10,6 @@ const FlexContainer = styled.div`
   padding: 2rem;
 `;
 
-const Button = styled.button`
-  display: flex;
-  flex: ${props => (props.small ? '1 0 30%' : '1 0 100%')};
-  height: 10rem;
-  justify-content: center;
-  margin: 2px;
-  border: 2px solid red;
-  border-radius: 5px;
-`;
-
 const Avatars = styled.div`
   display: flex;
   justify-content: space-around;
@@ -40,20 +30,43 @@ const Avatar = styled.div`
   width: 50%; */
   width: 35vw;
   height: 35vw;
-  max-width: 20rem;
-  max-height: 20rem;
+  max-width: 16rem;
+  max-height: 16rem;
 
   ${({ aiAvatarHover }) =>
     aiAvatarHover &&
     `
     background-image: url(${aiAvatarHover})
-  `}
+    `}
 `;
 const Buttons = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  position: relative;
+`;
+
+const Button = styled.button`
+  display: flex;
+  flex: ${props => (props.small ? '1 0 30%' : '1 0 100%')};
+  justify-content: center;
+  height: 8rem;
+  color: #000;
+  background-color: #fff;
+  margin: 2px;
+  border-radius: 5px;
+  font-size: 2.5rem;
+  border: solid #4cff9d 4px;
+  cursor: pointer;
+`;
+
+const Select = styled.span`
+  color: #fff;
+  font-size: 2.5rem;
+  text-align: center;
+  position: absolute;
+  top: -5rem;
 `;
 
 const StartingPage = props => {
@@ -64,8 +77,8 @@ const StartingPage = props => {
         <Avatar aiAvatar={props.aiAvatar} aiAvatarHover={props.aiAvatarHover} />
       </Avatars>
 
-      <h2>select difficulty</h2>
       <Buttons>
+        <Select>select difficulty</Select>
         <Button
           small
           onClick={props.changeAvatarAndDifficulty}

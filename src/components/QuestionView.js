@@ -17,7 +17,7 @@ const AnswersBar = styled.ul`
   list-style: none;
   width: 100%;
   position: absolute;
-  top: 10px;
+  top: 1.5rem;
 `;
 
 const AnswersBarItem = styled.li`
@@ -34,6 +34,7 @@ const AnswersBarItem = styled.li`
 const Header = styled.h1`
   font-size: 2rem;
   color: #fff;
+  margin-top: 1rem;
 `;
 
 const Question = styled.span`
