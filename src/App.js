@@ -48,7 +48,7 @@ const GlobalStyles = createGlobalStyle`
 const Wrapper = styled.div`
   width: 46.5rem;
   height: 100%;
-  max-height: 88.5rem;
+  height: 88.5rem;
   /* background: linear-gradient(
     180deg,
     rgba(90, 80, 145, 1) 4%,
@@ -59,6 +59,11 @@ const Wrapper = styled.div`
     rgb(63, 51, 128) 10%,
     rgba(18, 15, 24, 1) 64%
   );
+
+  @media (max-width: 500px) {
+    height: 100vh;
+    width: 100%;
+  }
 `;
 
 class App extends Component {

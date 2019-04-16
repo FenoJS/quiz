@@ -44,11 +44,13 @@ const QuizStateContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 `;
 
 const QuizRow = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 const AnswersBar = styled.ul`
@@ -75,6 +77,7 @@ const RoundInfo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   color: ${props => (props.highlight && '#fff') || 'rgba(158, 158, 158, 0.56)'};
   height: 7rem;
   width: 80%;
@@ -93,8 +96,7 @@ const Button = styled.button`
 
 const ResultsTable = props => {
   const round = [1, 2, 3, 4, 5];
-  console.log(props.playerAnswers);
-  console.log(props.aiAnswers);
+
   return (
     <FlexContainer>
       <ScoreContainer>
@@ -111,7 +113,6 @@ const ResultsTable = props => {
               {item <= props.roundNumber ? (
                 props.playerAnswers[item - 1] ? (
                   props.playerAnswers[item - 1].map(answer => {
-                    console.log(item, props.roundNumber);
                     if (answer === true) {
                       return <AnswersBarItem correct />;
                     }

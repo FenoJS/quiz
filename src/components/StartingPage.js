@@ -47,10 +47,12 @@ const Buttons = styled.div`
   position: relative;
 `;
 
-const Button = styled.button`
+const Button = styled.div`
   display: flex;
   flex: ${props => (props.small ? '1 0 30%' : '1 0 100%')};
   justify-content: center;
+  align-items: center;
+  text-align: center;
   height: 8rem;
   color: #000;
   background-color: #fff;

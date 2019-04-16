@@ -26,10 +26,9 @@ class Quiz extends Component {
     };
 
     this.addSelectedCategory = this.addSelectedCategory.bind(this);
-    this.isQuestionsRoundFinished = this.isQuestionsRoundFinished.bind(this);
     this.getSelectedAnswers = this.getSelectedAnswers.bind(this);
     this.continueQuiz = this.continueQuiz.bind(this);
-    // this.simulateAiTurn = this.simulateAiTurn.bind(this);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   async componentDidMount() {
@@ -56,25 +55,7 @@ class Quiz extends Component {
     console.log(id, name);
     this.setState({
       selectedCategories: [...this.state.selectedCategories, [id, name]],
-      // isCategoryChosenByPlayer: true,
     });
-  }
-
-  // isQuestionsRoundFinished() {
-  //   this.setState({
-  //     roundNumber: this.state.roundNumber + 1,
-  //     allQuestionsAnswered: true,
-  //     humanPlayerTurn: false,
-  //   });
-  // }
-
-  isQuestionsRoundFinished() {
-    if (this.state.roundStartedByPlayer) {
-      this.setState({
-        allQuestionsAnswered: true,
-      });
-    }
-    // const aiCategory = getAiCategory(this.state.apiCategoriesList);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -124,11 +105,35 @@ class Quiz extends Component {
         });
       }
     }
+    if (
+      prevState.selectedAnswersByPlayer !==
+        this.state.selectedAnswersByPlayer ||
+      prevState.selectedAnswersByAi !== this.state.selectedAnswersByAi
+    ) {
+      this.updateScore(
+        this.state.selectedAnswersByPlayer,
+        this.state.selectedAnswersByAi
+      );
+    }
   }
 
   getSelectedAnswers(answers) {
     this.setState({
       selectedAnswersByPlayer: [...this.state.selectedAnswersByPlayer, answers],
+    });
+  }
+
+  updateScore(playerAnswers, AiAnswers) {
+    const playerScore = playerAnswers
+      .reduce((arrayOne, arrayTwo) => {
+        return arrayOne.concat(arrayTwo);
+      }, [])
+      .filter(item => item === true);
+    const AiScore = AiAnswers.reduce((arrayOne, arrayTwo) => {
+      return arrayOne.concat(arrayTwo);
+    }, []).filter(item => item === true);
+    this.setState({
+      score: [playerScore.length, AiScore.length],
     });
   }
 
@@ -153,7 +158,6 @@ class Quiz extends Component {
           return (
             <Question
               getSelectedAnswers={this.getSelectedAnswers}
-              // isQuestionsRoundFinished={this.isQuestionsRoundFinished}
               categoryID={
                 this.state.selectedCategories[this.state.roundNumber - 1][0]
               }
@@ -181,7 +185,6 @@ class Quiz extends Component {
           return (
             <Question
               getSelectedAnswers={this.getSelectedAnswers}
-              // isQuestionsRoundFinished={this.isQuestionsRoundFinished}
               categoryID={
                 this.state.selectedCategories[this.state.roundNumber - 1][0]
               }
