@@ -108,7 +108,8 @@ class Quiz extends Component {
     if (
       prevState.selectedAnswersByPlayer !==
         this.state.selectedAnswersByPlayer ||
-      prevState.selectedAnswersByAi !== this.state.selectedAnswersByAi
+      (prevState.selectedAnswersByAi !== this.state.selectedAnswersByAi &&
+        this.state.roundStartedByPlayer)
     ) {
       this.updateScore(
         this.state.selectedAnswersByPlayer,

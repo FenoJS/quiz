@@ -26,13 +26,28 @@ class Question extends Component {
       const res = await fetch(
         `https://opentdb.com/api.php?amount=3&category=${
           this.props.categoryID
-        }&difficulty=${this.props.difficulty}&type=multiple`
+        }&difficulty=${this.props.difficulty}&type=multiple&encode=url3986`
       );
       const data = await res.json();
+
+      // https://medium.com/front-end-weekly/immutability-in-array-of-objects-using-map-method-dd61584c7188
+      const newData = await data.results.map(item => {
+        item = {
+          ...item,
+          question: decodeURIComponent(item.question),
+          category: decodeURIComponent(item.category),
+          correct_answer: decodeURIComponent(item.correct_answer),
+          incorrect_answers: item.incorrect_answers.map(i =>
+            decodeURIComponent(i)
+          ),
+        };
+        return item;
+      });
+      console.log(newData);
       await this.setState({
-        questions: data.results,
+        questions: newData,
         correctAnswer:
-          data.results[this.state.currentQuestionNum - 1].correct_answer,
+          newData[this.state.currentQuestionNum - 1].correct_answer,
         selectedAnswer: null,
       });
     } catch (err) {
@@ -49,6 +64,7 @@ class Question extends Component {
   }
 
   async getAnswersList() {
+    console.log(this.state.questions);
     try {
       const answersList = [
         this.state.questions[this.state.currentQuestionNum - 1].correct_answer,
