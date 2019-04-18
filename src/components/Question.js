@@ -31,7 +31,7 @@ class Question extends Component {
       const data = await res.json();
 
       // https://medium.com/front-end-weekly/immutability-in-array-of-objects-using-map-method-dd61584c7188
-      const newData = await data.results.map(item => {
+      const newDecodedData = await data.results.map(item => {
         item = {
           ...item,
           question: decodeURIComponent(item.question),
@@ -43,11 +43,10 @@ class Question extends Component {
         };
         return item;
       });
-      console.log(newData);
       await this.setState({
-        questions: newData,
+        questions: newDecodedData,
         correctAnswer:
-          newData[this.state.currentQuestionNum - 1].correct_answer,
+          newDecodedData[this.state.currentQuestionNum - 1].correct_answer,
         selectedAnswer: null,
       });
     } catch (err) {
@@ -64,7 +63,6 @@ class Question extends Component {
   }
 
   async getAnswersList() {
-    console.log(this.state.questions);
     try {
       const answersList = [
         this.state.questions[this.state.currentQuestionNum - 1].correct_answer,
@@ -130,8 +128,6 @@ class Question extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.allQuestionsAnswered !== this.state.allQuestionsAnswered) {
-      // this.props.isQuestionsRoundFinished();
-      console.log(this.state.selectedAnswersList);
       this.props.getSelectedAnswers(this.state.selectedAnswersList);
     }
   }

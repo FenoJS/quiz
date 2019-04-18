@@ -36,10 +36,13 @@ class Quiz extends Component {
       try {
         const res = await fetch('https://opentdb.com/api_category.php');
         const data = await res.json();
-        console.log(data);
-        const filteredCategories = data.trivia_categories.map(item => {
-          item.name = item.name.replace(/Entertainment: |Science: /g, '');
-          return item;
+
+        // Remove anime & Manga category
+        const filteredCategories = data.trivia_categories.filter(item => {
+          if (item.id !== 31) {
+            item.name = item.name.replace(/Entertainment: |Science: /g, '');
+            return item;
+          }
         });
         this.setState({
           apiCategoriesList: filteredCategories,
