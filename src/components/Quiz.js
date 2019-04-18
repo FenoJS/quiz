@@ -169,20 +169,6 @@ class Quiz extends Component {
             />
           );
         }
-        if (this.state.renderScore) {
-          console.log('trueplayer');
-          return (
-            <ResultsTable
-              playerAvatar={this.props.playerAvatar}
-              aiAvatar={this.props.aiAvatar}
-              categories={this.state.selectedCategories}
-              score={this.state.score}
-              roundNumber={this.state.roundNumber}
-              playerAnswers={this.state.selectedAnswersByPlayer}
-              aiAnswers={this.state.selectedAnswersByAi}
-            />
-          );
-        }
       }
       if (this.state.roundStartedByPlayer === false) {
         if (this.state.renderQuestion) {
@@ -196,22 +182,25 @@ class Quiz extends Component {
             />
           );
         }
-        if (this.state.renderScoreAi) {
-          console.log('trueAi');
-          return (
-            <ResultsTable
-              playerAvatar={this.props.playerAvatar}
-              aiAvatar={this.props.aiAvatar}
-              categories={this.state.selectedCategories}
-              score={this.state.score}
-              roundNumber={this.state.roundNumber}
-              continueQuiz={this.continueQuiz}
-              playerAnswers={this.state.selectedAnswersByPlayer}
-              aiAnswers={this.state.selectedAnswersByAi}
-              playButton
-            />
-          );
-        }
+      }
+      if (
+        (this.state.roundStartedByPlayer === false &&
+          this.state.renderScoreAi) ||
+        (this.state.roundStartedByPlayer && this.state.renderScore)
+      ) {
+        return (
+          <ResultsTable
+            playerAvatar={this.props.playerAvatar}
+            aiAvatar={this.props.aiAvatar}
+            categories={this.state.selectedCategories}
+            score={this.state.score}
+            roundNumber={this.state.roundNumber}
+            continueQuiz={this.continueQuiz}
+            playerAnswers={this.state.selectedAnswersByPlayer}
+            aiAnswers={this.state.selectedAnswersByAi}
+            playButton
+          />
+        );
       }
     }
     return null;
