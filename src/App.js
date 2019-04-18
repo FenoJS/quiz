@@ -75,11 +75,18 @@ class App extends Component {
     this.changeAvatarAndDifficulty = this.changeAvatarAndDifficulty.bind(this);
     this.hoverAvatarOn = this.hoverAvatarOn.bind(this);
     this.hoverAvatarOff = this.hoverAvatarOff.bind(this);
+    this.startNewGame = this.startNewGame.bind(this);
   }
 
   startQuiz() {
     this.setState({
       quizRunning: true,
+    });
+  }
+
+  startNewGame() {
+    this.setState({
+      quizRunning: false,
     });
   }
 
@@ -136,6 +143,7 @@ class App extends Component {
               playerAvatar={playerAvatar}
               aiAvatar={this.state.aiAvatar}
               difficulty={this.state.difficultyLevel}
+              startNewGame={this.startNewGame}
             />
           ) : (
             <StartingPage

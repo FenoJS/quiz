@@ -38,7 +38,6 @@ class Category extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       this.state.dataLoaded && (
         <CategoryView

@@ -25,6 +25,7 @@ class Quiz extends Component {
     this.getSelectedAnswers = this.getSelectedAnswers.bind(this);
     this.continueQuiz = this.continueQuiz.bind(this);
     this.updateScore = this.updateScore.bind(this);
+    this.startNewGame = this.startNewGame.bind(this);
   }
 
   async componentDidMount() {
@@ -51,7 +52,6 @@ class Quiz extends Component {
   }
 
   addSelectedCategory(id, name) {
-    console.log(id, name);
     this.setState({
       selectedCategories: [...this.state.selectedCategories, [id, name]],
     });
@@ -144,6 +144,10 @@ class Quiz extends Component {
     });
   }
 
+  startNewGame() {
+    this.props.startNewGame();
+  }
+
   render() {
     if (this.state.dataLoaded) {
       if (this.state.roundStartedByPlayer) {
@@ -192,6 +196,7 @@ class Quiz extends Component {
             score={this.state.score}
             roundNumber={this.state.roundNumber}
             continueQuiz={this.continueQuiz}
+            startNewGame={this.startNewGame}
             playerAnswers={this.state.selectedAnswersByPlayer}
             aiAnswers={this.state.selectedAnswersByAi}
             roundStartedByPlayer={this.state.roundStartedByPlayer ? true : null}

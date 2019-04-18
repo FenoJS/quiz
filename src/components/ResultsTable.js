@@ -44,6 +44,13 @@ const Point = styled.span`
   padding: 0.5rem;
 `;
 
+const ResultInfo = styled.div`
+  color: #fff;
+  font-size: 4.5rem;
+  font-family: 'Varela Round', sans-serif;
+  opacity: 1;
+`;
+
 const QuizStateContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -122,7 +129,6 @@ const ResultsTable = props => {
   const fake3ItemArray = [1, 2, 3];
 
   const answerBarPlaceholder = status => {
-    console.log(status);
     if (status === 'highlight') {
       return fake3ItemArray.map(item => <AnswersBarItem highlight />);
     } else return fake3ItemArray.map(item => <AnswersBarItem />);
@@ -145,6 +151,15 @@ const ResultsTable = props => {
     } else return <AnswersBarItem />;
   };
 
+  const showResult = () => {
+    if (props.score[0] > props.score[1]) {
+      return 'You Won!';
+    }
+    if (props.score[0] < props.score[1]) {
+      return 'You Lose!';
+    } else return 'Draw!';
+  };
+
   return (
     <FlexContainer>
       <ScoreContainer>
@@ -156,6 +171,7 @@ const ResultsTable = props => {
         </Score>
         <Avatar aiAvatar={props.aiAvatar} />
       </ScoreContainer>
+      {props.roundNumber > 5 && <ResultInfo>{showResult()}</ResultInfo>}
       <QuizStateContainer>
         {round.map(item => (
           <QuizRow>
@@ -201,7 +217,13 @@ const ResultsTable = props => {
         ))}
       </QuizStateContainer>
       {props.roundStartedByAi ? (
-        <Button onClick={props.continueQuiz}>Click to Continue!</Button>
+        <Button
+          onClick={
+            props.roundNumber > 5 ? props.startNewGame : props.continueQuiz
+          }
+        >
+          {props.roundNumber > 5 ? 'Start New Game!' : 'Click to Continue!'}
+        </Button>
       ) : (
         <Button hide disabled>
           hidden
