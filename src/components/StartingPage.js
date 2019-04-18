@@ -17,7 +17,7 @@ const Avatars = styled.div`
 `;
 
 const Avatar = styled.div`
-  border: 5px solid red;
+  border: 2px solid #fff;
   border-radius: 50%;
   background-image: ${props =>
     props.playerAvatar
@@ -54,12 +54,12 @@ const Button = styled.div`
   align-items: center;
   text-align: center;
   height: 8rem;
-  color: #000;
-  background-color: #fff;
-  margin: 2px;
+  color: ${props => (props.small ? '#fff' : '#000')};
+  background-color: ${props => (props.small ? 'transaprent' : '#fff')};
+  margin-bottom: ${props => (props.small ? '2rem' : null)};
   border-radius: 5px;
   font-size: 2.5rem;
-  border: solid #4cff9d 4px;
+  /* border: solid #4cff9d 4px; */
   cursor: pointer;
 `;
 

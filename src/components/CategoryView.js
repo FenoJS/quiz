@@ -38,7 +38,7 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li`
-  margin-bottom: 5px;
+  margin-bottom: 1.5rem;
 `;
 
 const CategoryView = props => {

@@ -90,7 +90,7 @@ class Quiz extends Component {
             renderScore: false,
             renderScoreAi: true,
           });
-        }, 2000);
+        }, 1500);
       }
     }
     if (this.state.roundStartedByPlayer === false) {

@@ -12,12 +12,13 @@ const FlexContainer = styled.div`
 
 const ScoreContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-evenly;
   align-items: center;
 `;
 
 const Avatar = styled.div`
-  border: 5px solid red;
+  border: 2px solid #fff;
   border-radius: 50%;
   background-image: ${props =>
     props.playerAvatar
@@ -32,11 +33,15 @@ const Avatar = styled.div`
   max-height: 13rem;
 `;
 
-const Score = styled.div``;
+const Score = styled.div`
+  font-size: 4rem;
+  color: #fff;
+`;
 
 const Point = styled.span`
   color: #fff;
   font-size: 4rem;
+  padding: 0.5rem;
 `;
 
 const QuizStateContainer = styled.div`
@@ -79,7 +84,7 @@ const RoundInfo = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: ${props => (props.highlight && '#fff') || 'rgba(158, 158, 158, 0.56)'};
+  color: ${props => (props.highlight ? '#fff' : 'rgba(158, 158, 158, 0.56)')};
   height: 7rem;
   width: 80%;
 `;
@@ -93,6 +98,14 @@ const Category = styled.span`
 
 const Button = styled.button`
   width: 100%;
+  height: 5rem;
+  font-size: 2.5rem;
+  color: #fff;
+  background-color: #ff4545;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  opacity: ${props => (props.hide ? '0' : null)};
 `;
 
 const Hidden = styled.span`
@@ -137,7 +150,8 @@ const ResultsTable = props => {
       <ScoreContainer>
         <Avatar playerAvatar={props.playerAvatar} />
         <Score>
-          <Point>{props.score[0]}</Point>:
+          <Point>{props.score[0]}</Point>
+          <span>-</span>
           <Point>{props.roundNumber > 1 ? pointsAi() : 0}</Point>
         </Score>
         <Avatar aiAvatar={props.aiAvatar} />
@@ -186,8 +200,12 @@ const ResultsTable = props => {
           </QuizRow>
         ))}
       </QuizStateContainer>
-      {props.roundStartedByAi && (
-        <Button onClick={props.continueQuiz}>Play!</Button>
+      {props.roundStartedByAi ? (
+        <Button onClick={props.continueQuiz}>Click to Continue!</Button>
+      ) : (
+        <Button hide disabled>
+          hidden
+        </Button>
       )}
     </FlexContainer>
   );

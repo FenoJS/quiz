@@ -72,7 +72,7 @@ const Button = styled.button`
     (isAnswerCorrect === 'answerWrong' && '#fff') ||
     (answered && 'rgba(0, 0, 0, 0.51)') ||
     '#000'};
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-family: 'Varela Round', sans-serif;
   cursor: pointer;
   border: ${({ isAnswerCorrect }) =>
@@ -80,6 +80,7 @@ const Button = styled.button`
     'none'};
   border-radius: 5px;
   height: 11.5rem;
+  cursor: pointer;
 `;
 
 const ClickInfo = styled.span`
