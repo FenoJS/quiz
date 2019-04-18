@@ -38,7 +38,8 @@ const Header = styled.h1`
 `;
 
 const Question = styled.span`
-  font-size: 2.5rem;
+  font-family: 'Dosis', sans-serif;
+  font-size: 3.5rem;
   color: #fff;
 `;
 
@@ -72,6 +73,7 @@ const Button = styled.button`
     (answered && 'rgba(0, 0, 0, 0.51)') ||
     '#000'};
   font-size: 2.5rem;
+  font-family: 'Varela Round', sans-serif;
   cursor: pointer;
   border: ${({ isAnswerCorrect }) =>
     (isAnswerCorrect === 'answerWrongShowCorrect' && 'solid #4cff9d 4px') ||

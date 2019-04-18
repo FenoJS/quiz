@@ -49,11 +49,6 @@ const Wrapper = styled.div`
   width: 46.5rem;
   height: 100%;
   height: 88.5rem;
-  /* background: linear-gradient(
-    180deg,
-    rgba(90, 80, 145, 1) 4%,
-    rgba(18, 15, 24, 1) 98%
-  ); */
   background: linear-gradient(
     180deg,
     rgb(63, 51, 128) 10%,

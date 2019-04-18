@@ -10,15 +10,11 @@ class Quiz extends Component {
     super(props);
     this.state = {
       dataLoaded: false,
-      isQuizRunning: true,
       renderCategory: true,
-      humanPlayerTurn: true,
       roundStartedByPlayer: true,
       roundNumber: 1,
       renderScore: false,
       apiCategoriesList: null,
-      isCategoryChosenByPlayer: false,
-      allQuestionsAnswered: false,
       selectedCategories: [],
       score: [0, 0],
       selectedAnswersByPlayer: [],
@@ -198,7 +194,8 @@ class Quiz extends Component {
             continueQuiz={this.continueQuiz}
             playerAnswers={this.state.selectedAnswersByPlayer}
             aiAnswers={this.state.selectedAnswersByAi}
-            playButton
+            roundStartedByPlayer={this.state.roundStartedByPlayer ? true : null}
+            roundStartedByAi={this.state.roundStartedByPlayer ? null : true}
           />
         );
       }

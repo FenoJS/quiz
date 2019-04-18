@@ -80,7 +80,7 @@ const StartingPage = props => {
       </Avatars>
 
       <Buttons>
-        <Select>select difficulty</Select>
+        {/* <Select>select difficulty</Select> */}
         <Button
           small
           onClick={props.changeAvatarAndDifficulty}

@@ -22,6 +22,7 @@ const Button = styled.button`
   width: 100%;
   color: #fff;
   font-size: 2.5rem;
+  font-family: 'Varela Round', sans-serif;
   background: transparent;
   cursor: pointer;
   border: 2px solid #fff;
