@@ -28,6 +28,12 @@ const Button = styled.button`
   border: 2px solid #fff;
   border-radius: 9rem;
   padding: 2.5rem;
+  transition: all 0.5s;
+
+  &:hover {
+    color: rgb(8, 5, 23);
+    background: #fff;
+  }
 `;
 
 const List = styled.ul`

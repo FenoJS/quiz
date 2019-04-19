@@ -61,6 +61,16 @@ const Button = styled.div`
   font-size: 2.5rem;
   /* border: solid #4cff9d 4px; */
   cursor: pointer;
+  transition: all 0.5s;
+
+  /* &:hover {
+    color: #000;
+    background-color: #fff;
+  } */
+
+  &:active {
+    font-size: 3.5rem;
+  }
 `;
 
 const Select = styled.span`
