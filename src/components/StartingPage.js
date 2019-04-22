@@ -73,48 +73,25 @@ const Button = styled.div`
   }
 `;
 
-const Select = styled.span`
-  color: #fff;
-  font-size: 2.5rem;
-  text-align: center;
-  position: absolute;
-  top: -5rem;
-`;
-
 const StartingPage = props => {
+  const levels = ['Easy', 'Medium', 'Hard'];
   return (
     <FlexContainer column>
       <Avatars>
         <Avatar playerAvatar={props.playerAvatar} />
         <Avatar aiAvatar={props.aiAvatar} aiAvatarHover={props.aiAvatarHover} />
       </Avatars>
-
       <Buttons>
-        {/* <Select>select difficulty</Select> */}
-        <Button
-          small
-          onClick={props.changeAvatarAndDifficulty}
-          onMouseEnter={props.hoverAvatarOn}
-          onMouseLeave={props.hoverAvatarOff}
-        >
-          Easy
-        </Button>
-        <Button
-          small
-          onClick={props.changeAvatarAndDifficulty}
-          onMouseEnter={props.hoverAvatarOn}
-          onMouseLeave={props.hoverAvatarOff}
-        >
-          Medium
-        </Button>
-        <Button
-          small
-          onClick={props.changeAvatarAndDifficulty}
-          onMouseEnter={props.hoverAvatarOn}
-          onMouseLeave={props.hoverAvatarOff}
-        >
-          Hard
-        </Button>
+        {levels.map(level => (
+          <Button
+            small
+            onClick={props.changeAvatarAndDifficulty}
+            onMouseEnter={props.hoverAvatarOn}
+            onMouseLeave={props.hoverAvatarOff}
+          >
+            {level}
+          </Button>
+        ))}
         <Button onClick={props.startQuiz}>Start Game</Button>
       </Buttons>
     </FlexContainer>
