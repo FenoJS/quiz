@@ -1,6 +1,8 @@
 # React Quiz
 
-React Quiz App build with styled-components.
+React Quiz App build with styled-components. Inspired by popular facebook game.
+
+LIVE: [https://fenojs.github.io/quiz/](https://fenojs.github.io/quiz/)
 
 ## quiz difficulty levels:
 
@@ -8,13 +10,11 @@ React Quiz App build with styled-components.
 - medium: Computer player has 80 chance for correct answer from medium questions API pool
 - hard: Computer player has 90 chance for correct answer from hard questions API pool
 
-LIVE: [https://fenojs.github.io/quiz/](https://fenojs.github.io/quiz/)
-
-## credits
-
-[opentdb](https://opentdb.com/) API
-
 ## todo
 
 - Timer for questions
 - Loading screens
+
+## credits
+
+[opentdb](https://opentdb.com/) API
