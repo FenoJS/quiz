@@ -76,6 +76,7 @@ class App extends Component {
     this.hoverAvatarOn = this.hoverAvatarOn.bind(this);
     this.hoverAvatarOff = this.hoverAvatarOff.bind(this);
     this.startNewGame = this.startNewGame.bind(this);
+    this.setAvatarByLevel = this.setAvatarByLevel.bind(this);
   }
 
   startQuiz() {
@@ -90,38 +91,17 @@ class App extends Component {
     });
   }
 
-  // https://stackoverflow.com/questions/912596/how-to-turn-a-string-into-a-javascript-function-call
   changeAvatarAndDifficulty(event) {
-    const targetLevel = event.target.innerText;
     const difficulty = event.target.innerText.toLowerCase();
-    let avatar;
-    if (targetLevel === 'Easy') {
-      avatar = AiAvatarEasy;
-    }
-    if (targetLevel === 'Medium') {
-      avatar = AiAvatarMedium;
-    }
-    if (targetLevel === 'Hard') {
-      avatar = AiAvatarHard;
-    }
+    let avatar = this.setAvatarByLevel(event);
     this.setState({
       aiAvatar: avatar,
       difficultyLevel: difficulty,
     });
   }
-  //  should be refactored?
+
   hoverAvatarOn(event) {
-    const targetLevel = event.target.innerText;
-    let avatar;
-    if (targetLevel === 'Easy') {
-      avatar = AiAvatarEasy;
-    }
-    if (targetLevel === 'Medium') {
-      avatar = AiAvatarMedium;
-    }
-    if (targetLevel === 'Hard') {
-      avatar = AiAvatarHard;
-    }
+    let avatar = this.setAvatarByLevel(event);
     this.setState({
       aiAvatarHover: avatar,
     });
@@ -131,6 +111,26 @@ class App extends Component {
     this.setState({
       aiAvatarHover: this.state.aiAvatar,
     });
+  }
+
+  // https://stackoverflow.com/questions/912596/how-to-turn-a-string-into-a-javascript-function-call
+  setAvatarByLevel(event) {
+    const targetLevel = event.target.innerText;
+    let avatar;
+    switch (targetLevel) {
+      case 'Easy':
+        avatar = AiAvatarEasy;
+        break;
+      case 'Medium':
+        avatar = AiAvatarMedium;
+        break;
+      case 'Hard':
+        avatar = AiAvatarHard;
+        break;
+      default:
+        console.log('error');
+    }
+    return avatar;
   }
 
   render() {
