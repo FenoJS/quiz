@@ -128,6 +128,20 @@ const ResultsTable = props => {
     } else return 'Draw!';
   };
 
+  const displayAiColumn = round => {
+    if (round === props.roundNumber) {
+      return (
+        <AnswersBar highlighted>
+          {props.roundStartedByAi && <Hidden>hidden</Hidden>}
+        </AnswersBar>
+      );
+    }
+    if (round <= props.roundNumber - 1) {
+      return <AnswersBar answersArr={props.aiAnswers[round - 1]} />;
+    }
+    return <AnswersBar />;
+  };
+
   return (
     <FlexContainer>
       <ScoreContainer>
@@ -158,15 +172,7 @@ const ResultsTable = props => {
               )}
             </RoundInfo>
 
-            {round === props.roundNumber ? (
-              <AnswersBar highlighted>
-                {props.roundStartedByAi && <Hidden>hidden</Hidden>}
-              </AnswersBar>
-            ) : round <= props.roundNumber - 1 ? (
-              <AnswersBar answersArr={props.aiAnswers[round - 1]} />
-            ) : (
-              <AnswersBar />
-            )}
+            {displayAiColumn(round)}
           </QuizRow>
         ))}
       </QuizStateContainer>
