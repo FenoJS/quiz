@@ -149,17 +149,15 @@ const ResultsTable = props => {
               <AnswersBar />
             )}
 
-            {item <= props.roundNumber ? (
-              <RoundInfo highlight={item === props.roundNumber ? true : null}>
-                <Round>Round {item}</Round>
+            <RoundInfo highlight={item === props.roundNumber ? true : null}>
+              <Round>Round {item}</Round>
+              {item <= props.roundNumber ? (
                 <Category>{props.categories[item - 1][1]}</Category>
-              </RoundInfo>
-            ) : (
-              <RoundInfo>
-                <Round>Round {item}</Round>
+              ) : (
                 <Category />
-              </RoundInfo>
-            )}
+              )}
+            </RoundInfo>
+
             {item === props.roundNumber ? (
               props.roundStartedByAi ? (
                 <AnswersBar highlighted>
