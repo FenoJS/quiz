@@ -106,7 +106,7 @@ const Hidden = styled.span`
 `;
 
 const ResultsTable = props => {
-  const round = [1, 2, 3, 4, 5];
+  const rounds = [1, 2, 3, 4, 5];
 
   const pointsAi = () => {
     if (props.roundStartedByAi) {
@@ -141,33 +141,29 @@ const ResultsTable = props => {
       </ScoreContainer>
       {props.roundNumber > 5 && <ResultInfo>{showResult()}</ResultInfo>}
       <QuizStateContainer>
-        {round.map(item => (
+        {rounds.map(round => (
           <QuizRow>
-            {item <= props.roundNumber && props.playerAnswers[item - 1] ? (
-              <AnswersBar answersArr={props.playerAnswers[item - 1]} />
+            {round <= props.roundNumber && props.playerAnswers[round - 1] ? (
+              <AnswersBar answersArr={props.playerAnswers[round - 1]} />
             ) : (
               <AnswersBar />
             )}
 
-            <RoundInfo highlight={item === props.roundNumber ? true : null}>
-              <Round>Round {item}</Round>
-              {item <= props.roundNumber ? (
-                <Category>{props.categories[item - 1][1]}</Category>
+            <RoundInfo highlight={round === props.roundNumber ? true : null}>
+              <Round>Round {round}</Round>
+              {round <= props.roundNumber ? (
+                <Category>{props.categories[round - 1][1]}</Category>
               ) : (
                 <Category />
               )}
             </RoundInfo>
 
-            {item === props.roundNumber ? (
-              props.roundStartedByAi ? (
-                <AnswersBar highlighted>
-                  <Hidden>hidden</Hidden>
-                </AnswersBar>
-              ) : (
-                <AnswersBar highlighted />
-              )
-            ) : item <= props.roundNumber - 1 ? (
-              <AnswersBar answersArr={props.aiAnswers[item - 1]} />
+            {round === props.roundNumber ? (
+              <AnswersBar highlighted>
+                {props.roundStartedByAi && <Hidden>hidden</Hidden>}
+              </AnswersBar>
+            ) : round <= props.roundNumber - 1 ? (
+              <AnswersBar answersArr={props.aiAnswers[round - 1]} />
             ) : (
               <AnswersBar />
             )}
