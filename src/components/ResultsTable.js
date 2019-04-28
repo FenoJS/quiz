@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import AnswersBar from './AnswerBar';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -65,26 +66,6 @@ const QuizRow = styled.div`
   width: 100%;
 `;
 
-const AnswersBar = styled.ul`
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  width: 100%;
-  position: relative;
-`;
-
-const AnswersBarItem = styled.li`
-  background-color: ${props =>
-    (props.correct && '#4cff9d') ||
-    (props.wrong && '#ff4545') ||
-    (props.highlight && 'rgba(255,255,255,0.58)') ||
-    'rgba(255, 255, 255, 0.08)'};
-  width: 4rem;
-  height: 5px;
-  border-radius: 2rem;
-  margin-right: 5px;
-`;
-
 const RoundInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -126,29 +107,16 @@ const Hidden = styled.span`
 
 const ResultsTable = props => {
   const round = [1, 2, 3, 4, 5];
-  const fake3ItemArray = [1, 2, 3];
-
-  const answerBarPlaceholder = status => {
-    if (status === 'highlight') {
-      return fake3ItemArray.map(item => <AnswersBarItem highlight />);
-    } else return fake3ItemArray.map(item => <AnswersBarItem />);
-  };
 
   const pointsAi = () => {
     if (props.roundStartedByAi) {
       return props.score[1];
     } else {
-      return props.score[1] - 3;
+      const prevRoundScore = props.aiAnswers[props.roundNumber - 1].filter(
+        item => item === true
+      );
+      return props.score[1] - prevRoundScore.length;
     }
-  };
-
-  const displayAnswers = answer => {
-    if (answer) {
-      return <AnswersBarItem correct />;
-    }
-    if (answer === false) {
-      return <AnswersBarItem wrong />;
-    } else return <AnswersBarItem />;
   };
 
   const showResult = () => {
@@ -175,17 +143,12 @@ const ResultsTable = props => {
       <QuizStateContainer>
         {round.map(item => (
           <QuizRow>
-            <AnswersBar>
-              {item <= props.roundNumber ? (
-                props.playerAnswers[item - 1] ? (
-                  props.playerAnswers[item - 1].map(displayAnswers)
-                ) : (
-                  <AnswersBar>{answerBarPlaceholder()}</AnswersBar>
-                )
-              ) : (
-                <AnswersBar>{answerBarPlaceholder()}</AnswersBar>
-              )}
-            </AnswersBar>
+            {item <= props.roundNumber && props.playerAnswers[item - 1] ? (
+              <AnswersBar answersArr={props.playerAnswers[item - 1]} />
+            ) : (
+              <AnswersBar />
+            )}
+
             {item <= props.roundNumber ? (
               <RoundInfo highlight={item === props.roundNumber ? true : null}>
                 <Round>Round {item}</Round>
@@ -197,22 +160,19 @@ const ResultsTable = props => {
                 <Category />
               </RoundInfo>
             )}
-            <AnswersBar>
-              {item === props.roundNumber ? (
-                props.roundStartedByAi ? (
-                  <AnswersBar>
-                    <Hidden>hidden</Hidden>
-                    {answerBarPlaceholder('highlight')}
-                  </AnswersBar>
-                ) : (
-                  <AnswersBar>{answerBarPlaceholder('highlight')}</AnswersBar>
-                )
-              ) : item <= props.roundNumber - 1 ? (
-                props.aiAnswers[item - 1].map(displayAnswers)
+            {item === props.roundNumber ? (
+              props.roundStartedByAi ? (
+                <AnswersBar highlighted>
+                  <Hidden>hidden</Hidden>
+                </AnswersBar>
               ) : (
-                answerBarPlaceholder()
-              )}
-            </AnswersBar>
+                <AnswersBar highlighted />
+              )
+            ) : item <= props.roundNumber - 1 ? (
+              <AnswersBar answersArr={props.aiAnswers[item - 1]} />
+            ) : (
+              <AnswersBar />
+            )}
           </QuizRow>
         ))}
       </QuizStateContainer>

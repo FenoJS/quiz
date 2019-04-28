@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import AnswersBar from './AnswerBar';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -9,26 +10,6 @@ const FlexContainer = styled.div`
   align-items: center;
   padding: 2rem 2rem 6rem 2rem;
   position: relative;
-`;
-
-const AnswersBar = styled.ul`
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  width: 100%;
-  position: absolute;
-  top: 1.5rem;
-`;
-
-const AnswersBarItem = styled.li`
-  background-color: ${props =>
-    (props.correct && '#4cff9d') ||
-    (props.wrong && '#ff4545') ||
-    'rgba(255, 255, 255, 0.08)'};
-  width: 4rem;
-  height: 5px;
-  border-radius: 2rem;
-  margin-right: 5px;
 `;
 
 const Header = styled.h1`
@@ -111,16 +92,11 @@ const ClickInfo = styled.span`
 const QuestionView = props => {
   return (
     <FlexContainer onClick={props.continueQuiz}>
-      <AnswersBar>
-        {props.answersBarLength.map((item, i) => {
-          if (props.selectedAnswersList[i] === true) {
-            return <AnswersBarItem correct />;
-          }
-          if (props.selectedAnswersList[i] === false) {
-            return <AnswersBarItem wrong />;
-          } else return <AnswersBarItem />;
-        })}
-      </AnswersBar>
+      <AnswersBar
+        topBar={true}
+        answersArr={props.answersBarLength}
+        selectedAnswers={props.selectedAnswersList}
+      />
       <Header>
         {
           (props.question.category = props.question.category.replace(
