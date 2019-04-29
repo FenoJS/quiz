@@ -121,7 +121,7 @@ const ResultsTable = props => {
 
   const showResult = () => {
     if (props.score[0] > props.score[1]) {
-      return 'You Won!';
+      return 'You Win!';
     }
     if (props.score[0] < props.score[1]) {
       return 'You Lose!';
