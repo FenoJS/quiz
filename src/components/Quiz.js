@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { getAiAnswers, getAiCategory } from '../utils/utils';
 import Category from './Category';
 import Question from './Question';
 import ResultsTable from './ResultsTable';
-import { getAiAnswers, getAiCategory } from '../utils/utils';
+import Loading from './Loading';
 
 class Quiz extends Component {
   constructor(props) {
@@ -203,7 +204,7 @@ class Quiz extends Component {
         );
       }
     }
-    return null;
+    return <Loading />;
   }
 }
 

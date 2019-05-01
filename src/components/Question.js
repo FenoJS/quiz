@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shuffle } from '../utils/utils';
 import QuestionView from './QuestionView';
+import Loading from './Loading';
 
 class Question extends Component {
   constructor(props) {
@@ -120,21 +121,21 @@ class Question extends Component {
   }
 
   render() {
-    return (
-      this.state.dataLoaded && (
-        <QuestionView
-          question={this.state.questions[this.state.currentQuestionNum - 1]}
-          answers={this.state.answers}
-          getSelectedAnswer={this.getSelectedAnswer}
-          showCorrectAnswer={this.showCorrectAnswer}
-          selectedAnswersList={this.state.selectedAnswersList}
-          answersBarLength={this.state.questions}
-          isQuestionAnswered={this.state.questionAnswered}
-          continueQuiz={
-            this.state.questionAnswered ? this.continueQuiz : undefined
-          }
-        />
-      )
+    return this.state.dataLoaded ? (
+      <QuestionView
+        question={this.state.questions[this.state.currentQuestionNum - 1]}
+        answers={this.state.answers}
+        getSelectedAnswer={this.getSelectedAnswer}
+        showCorrectAnswer={this.showCorrectAnswer}
+        selectedAnswersList={this.state.selectedAnswersList}
+        answersBarLength={this.state.questions}
+        isQuestionAnswered={this.state.questionAnswered}
+        continueQuiz={
+          this.state.questionAnswered ? this.continueQuiz : undefined
+        }
+      />
+    ) : (
+      <Loading />
     );
   }
 }
