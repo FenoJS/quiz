@@ -106,38 +106,45 @@ const Hidden = styled.span`
 `;
 
 const ResultsTable = props => {
+  const {
+    playerAvatar,
+    aiAvatar,
+    score,
+    roundNumber,
+    playerAnswers,
+    aiAnswers,
+    roundStartedByAi,
+  } = props;
+
   const rounds = [1, 2, 3, 4, 5];
 
   const pointsAi = () => {
-    if (props.roundStartedByAi) {
-      return props.score[1];
+    if (roundStartedByAi) {
+      return score[1];
     } else {
-      const prevRoundScore = props.aiAnswers[props.roundNumber - 1].filter(
+      const prevRoundScore = aiAnswers[roundNumber - 1].filter(
         item => item === true
       );
-      return props.score[1] - prevRoundScore.length;
+      return score[1] - prevRoundScore.length;
     }
   };
 
   const showResult = () => {
-    if (props.score[0] > props.score[1]) {
-      return 'You Win!';
-    }
-    if (props.score[0] < props.score[1]) {
-      return 'You Lose!';
-    } else return 'Draw!';
+    if (score[0] > score[1]) return 'You Win!';
+    if (score[0] < score[1]) return 'You Lose!';
+    return 'Draw!';
   };
 
   const displayAiColumn = round => {
-    if (round === props.roundNumber) {
+    if (round === roundNumber) {
       return (
         <AnswersBar highlighted>
-          {props.roundStartedByAi && <Hidden>hidden</Hidden>}
+          {roundStartedByAi && <Hidden>hidden</Hidden>}
         </AnswersBar>
       );
     }
-    if (round <= props.roundNumber - 1) {
-      return <AnswersBar answersArr={props.aiAnswers[round - 1]} />;
+    else if (round < roundNumber) {
+      return <AnswersBar answersArr={aiAnswers[round - 1]} />;
     }
     return <AnswersBar />;
   };
@@ -145,27 +152,27 @@ const ResultsTable = props => {
   return (
     <FlexContainer>
       <ScoreContainer>
-        <Avatar playerAvatar={props.playerAvatar} />
+        <Avatar playerAvatar={playerAvatar} />
         <Score>
-          <Point>{props.score[0]}</Point>
+          <Point>{score[0]}</Point>
           <span>-</span>
-          <Point>{props.roundNumber > 1 ? pointsAi() : 0}</Point>
+          <Point>{roundNumber > 1 ? pointsAi() : 0}</Point>
         </Score>
-        <Avatar aiAvatar={props.aiAvatar} />
+        <Avatar aiAvatar={aiAvatar} />
       </ScoreContainer>
-      {props.roundNumber > 5 && <ResultInfo>{showResult()}</ResultInfo>}
+      {roundNumber > 5 && <ResultInfo>{showResult()}</ResultInfo>}
       <QuizStateContainer>
         {rounds.map(round => (
-          <QuizRow>
-            {round <= props.roundNumber && props.playerAnswers[round - 1] ? (
-              <AnswersBar answersArr={props.playerAnswers[round - 1]} />
+          <QuizRow key={'round' + round}>
+            {round <= roundNumber && playerAnswers[round - 1] ? (
+              <AnswersBar answersArr={playerAnswers[round - 1]} />
             ) : (
               <AnswersBar />
             )}
 
-            <RoundInfo highlight={round === props.roundNumber ? true : null}>
+            <RoundInfo highlight={round === roundNumber ? true : null}>
               <Round>Round {round}</Round>
-              {round <= props.roundNumber ? (
+              {round <= roundNumber ? (
                 <Category>{props.categories[round - 1][1]}</Category>
               ) : (
                 <Category />
@@ -176,13 +183,11 @@ const ResultsTable = props => {
           </QuizRow>
         ))}
       </QuizStateContainer>
-      {props.roundStartedByAi ? (
+      {roundStartedByAi ? (
         <Button
-          onClick={
-            props.roundNumber > 5 ? props.startNewGame : props.continueQuiz
-          }
+          onClick={roundNumber > 5 ? props.startNewGame : props.continueQuiz}
         >
-          {props.roundNumber > 5 ? 'Start New Game!' : 'Click to Continue!'}
+          {roundNumber > 5 ? 'Start New Game!' : 'Click to Continue!'}
         </Button>
       ) : (
         <Button hide disabled>

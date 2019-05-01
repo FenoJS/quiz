@@ -107,16 +107,16 @@ const QuestionView = props => {
       </Header>
       <Question>{props.question.question}</Question>
       <List>
-        {props.answers.map(item => {
+        {props.answers.map((item, i) => {
           if (!props.isQuestionAnswered) {
             return (
-              <ListItem>
+              <ListItem key={i.toString()}>
                 <Button onClick={props.getSelectedAnswer}>{item}</Button>
               </ListItem>
             );
           } else {
             return (
-              <ListItem>
+              <ListItem key={i.toString()}>
                 <Button
                   onClick={props.getSelectedAnswer}
                   isAnswerCorrect={props.showCorrectAnswer(item)}

@@ -23,36 +23,32 @@ const AnswersBarItem = styled.li`
 `;
 
 const AnswersBar = props => {
-  console.log(props);
-
+  const { topBar, selectedAnswers, answersArr } = props;
   const placeholderArray = [1, 2, 3];
 
   const displayAnswers = () => {
-    if (props.answersArr) {
-      const answer = props.answersArr.map((item, i) => {
-        if (
-          (!props.topBar && item) ||
-          (props.topBar && props.selectedAnswers[i] === true)
+    if (answersArr) {
+      const answer = answersArr.map((item, i) => {
+        if ((!topBar && item) || (topBar && selectedAnswers[i] === true)) {
+          return <AnswersBarItem key={'key' + i} correct />;
+        } else if (
+          (!topBar && item === false) ||
+          (topBar && selectedAnswers[i] === false)
         ) {
-          return <AnswersBarItem correct />;
-        }
-        if (
-          (!props.topBar && item === false) ||
-          (props.topBar && props.selectedAnswers[i] === false)
-        ) {
-          return <AnswersBarItem wrong />;
-        } else return <AnswersBarItem />;
+          return <AnswersBarItem key={'key' + i} wrong />;
+        } else return <AnswersBarItem key={'key' + i} />;
       });
       return answer;
+    } else if (props.highlighted) {
+      return placeholderArray.map(item => (
+        <AnswersBarItem key={'key' + item} highlight />
+      ));
     }
-    if (props.highlighted) {
-      return placeholderArray.map(item => <AnswersBarItem highlight />);
-    }
-    return placeholderArray.map(item => <AnswersBarItem />);
+    return placeholderArray.map(item => <AnswersBarItem key={'key' + item} />);
   };
 
   return (
-    <AnswersBarList topBar={props.topBar}>
+    <AnswersBarList topBar={topBar}>
       {props.children}
       {displayAnswers()}
     </AnswersBarList>

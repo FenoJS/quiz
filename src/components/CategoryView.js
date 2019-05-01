@@ -53,7 +53,7 @@ const CategoryView = props => {
       <Header>Select Category</Header>
       <List>
         {props.categoriesList.map(item => (
-          <ListItem>
+          <ListItem key={item.id}>
             <Button
               onClick={() => {
                 props.selectCategory(item.id, item.name);

@@ -76,12 +76,8 @@ class Question extends Component {
 
   getSelectedAnswer(event) {
     const answer = event.target.innerText;
-    let isAnswerCorrect;
-    if (answer === this.state.correctAnswer) {
-      isAnswerCorrect = true;
-    } else {
-      isAnswerCorrect = false;
-    }
+    const isAnswerCorrect = answer === this.state.correctAnswer ? true : false;
+
     this.setState({
       selectedAnswer: answer,
       questionAnswered: true,
@@ -92,16 +88,9 @@ class Question extends Component {
   showCorrectAnswer(item) {
     if (this.state.questionAnswered) {
       if (this.state.correctAnswer !== this.state.selectedAnswer) {
-        if (item === this.state.selectedAnswer) {
-          return 'answerWrong';
-        }
-        if (item === this.state.correctAnswer) {
-          return 'answerWrongShowCorrect';
-        }
-      }
-      if (this.state.correctAnswer === item) {
-        return 'answerCorrect';
-      }
+        if (item === this.state.selectedAnswer) return 'answerWrong';
+        if (item === this.state.correctAnswer) return 'answerWrongShowCorrect';
+      } else if (this.state.correctAnswer === item) return 'answerCorrect';
     }
   }
 
@@ -114,8 +103,7 @@ class Question extends Component {
           .correct_answer,
       });
       await this.getAnswersList();
-    }
-    if (
+    } else if (
       this.state.currentQuestionNum === 3 &&
       this.state.questionAnswered === true
     ) {

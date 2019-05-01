@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const FlexContainer = styled.div`
@@ -26,8 +26,6 @@ const Avatar = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* padding-bottom: 50%;
-  width: 50%; */
   width: 35vw;
   height: 35vw;
   max-width: 16rem;
@@ -59,14 +57,8 @@ const Button = styled.div`
   margin-bottom: ${props => (props.small ? '2rem' : null)};
   border-radius: 5px;
   font-size: 2.5rem;
-  /* border: solid #4cff9d 4px; */
   cursor: pointer;
   transition: all 0.5s;
-
-  /* &:hover {
-    color: #000;
-    background-color: #fff;
-  } */
 
   &:active {
     font-size: 3.5rem;

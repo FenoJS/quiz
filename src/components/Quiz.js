@@ -56,19 +56,24 @@ class Quiz extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.roundStartedByPlayer) {
-      if (prevState.selectedCategories !== this.state.selectedCategories) {
+    const {
+      roundStartedByPlayer,
+      selectedAnswersByPlayer,
+      selectedAnswersByAi,
+      selectedCategories,
+    } = this.state;
+
+    if (roundStartedByPlayer) {
+      if (prevState.selectedCategories !== selectedCategories) {
         this.setState({
           renderCategory: false,
           renderQuestion: true,
         });
       }
-      if (
-        prevState.selectedAnswersByPlayer !== this.state.selectedAnswersByPlayer
-      ) {
+      if (prevState.selectedAnswersByPlayer !== selectedAnswersByPlayer) {
         const aiAnswers = getAiAnswers(this.props.difficulty);
         this.setState({
-          selectedAnswersByAi: [...this.state.selectedAnswersByAi, aiAnswers],
+          selectedAnswersByAi: [...selectedAnswersByAi, aiAnswers],
           renderScore: true,
           renderQuestion: false,
         });
@@ -78,9 +83,9 @@ class Quiz extends Component {
         const aiCategory = getAiCategory(this.state.apiCategoriesList);
         setTimeout(() => {
           this.setState({
-            selectedAnswersByAi: [...this.state.selectedAnswersByAi, aiAnswers],
+            selectedAnswersByAi: [...selectedAnswersByAi, aiAnswers],
             selectedCategories: [
-              ...this.state.selectedCategories,
+              ...selectedCategories,
               [aiCategory.id, aiCategory.name],
             ],
             roundStartedByPlayer: false,
@@ -90,10 +95,8 @@ class Quiz extends Component {
           });
         }, 1500);
       }
-    } else if (this.state.roundStartedByPlayer === false) {
-      if (
-        prevState.selectedAnswersByPlayer !== this.state.selectedAnswersByPlayer
-      ) {
+    } else if (roundStartedByPlayer === false) {
+      if (prevState.selectedAnswersByPlayer !== selectedAnswersByPlayer) {
         this.setState({
           roundStartedByPlayer: true,
           roundNumber: this.state.roundNumber + 1,
@@ -102,15 +105,11 @@ class Quiz extends Component {
       }
     }
     if (
-      prevState.selectedAnswersByPlayer !==
-        this.state.selectedAnswersByPlayer ||
-      (prevState.selectedAnswersByAi !== this.state.selectedAnswersByAi &&
-        this.state.roundStartedByPlayer)
+      prevState.selectedAnswersByPlayer !== selectedAnswersByPlayer ||
+      (prevState.selectedAnswersByAi !== selectedAnswersByAi &&
+        roundStartedByPlayer)
     ) {
-      this.updateScore(
-        this.state.selectedAnswersByPlayer,
-        this.state.selectedAnswersByAi
-      );
+      this.updateScore(selectedAnswersByPlayer, selectedAnswersByAi);
     }
   }
 
@@ -146,58 +145,60 @@ class Quiz extends Component {
   }
 
   render() {
+    const {
+      roundStartedByPlayer,
+      renderCategory,
+      renderQuestion,
+      roundNumber,
+      selectedCategories,
+    } = this.state;
+
     if (this.state.dataLoaded) {
-      if (this.state.roundStartedByPlayer) {
-        if (this.state.renderCategory)
+      if (roundStartedByPlayer) {
+        if (renderCategory)
           return (
             <Category
               addSelectedCategory={this.addSelectedCategory}
               allCategories={this.state.apiCategoriesList}
             />
           );
-        if (this.state.renderQuestion) {
+        if (renderQuestion) {
           return (
             <Question
               getSelectedAnswers={this.getSelectedAnswers}
-              categoryID={
-                this.state.selectedCategories[this.state.roundNumber - 1][0]
-              }
+              categoryID={selectedCategories[roundNumber - 1][0]}
               difficulty={this.props.difficulty}
             />
           );
         }
       }
-      if (this.state.roundStartedByPlayer === false) {
-        if (this.state.renderQuestion) {
+      if (roundStartedByPlayer === false) {
+        if (renderQuestion) {
           return (
             <Question
               getSelectedAnswers={this.getSelectedAnswers}
-              categoryID={
-                this.state.selectedCategories[this.state.roundNumber - 1][0]
-              }
+              categoryID={selectedCategories[roundNumber - 1][0]}
               difficulty={this.props.difficulty}
             />
           );
         }
       }
       if (
-        (this.state.roundStartedByPlayer === false &&
-          this.state.renderScoreAi) ||
-        (this.state.roundStartedByPlayer && this.state.renderScore)
+        (roundStartedByPlayer === false && this.state.renderScoreAi) ||
+        (roundStartedByPlayer && this.state.renderScore)
       ) {
         return (
           <ResultsTable
             playerAvatar={this.props.playerAvatar}
             aiAvatar={this.props.aiAvatar}
-            categories={this.state.selectedCategories}
+            categories={selectedCategories}
             score={this.state.score}
-            roundNumber={this.state.roundNumber}
+            roundNumber={roundNumber}
             continueQuiz={this.continueQuiz}
             startNewGame={this.startNewGame}
             playerAnswers={this.state.selectedAnswersByPlayer}
             aiAnswers={this.state.selectedAnswersByAi}
-            roundStartedByPlayer={this.state.roundStartedByPlayer ? true : null}
-            roundStartedByAi={this.state.roundStartedByPlayer ? null : true}
+            roundStartedByAi={roundStartedByPlayer ? null : true}
           />
         );
       }

@@ -93,7 +93,7 @@ class App extends Component {
 
   changeAvatarAndDifficulty(event) {
     const difficulty = event.target.innerText.toLowerCase();
-    let avatar = this.setAvatarByLevel(event);
+    const avatar = this.setAvatarByLevel(event);
     this.setState({
       aiAvatar: avatar,
       difficultyLevel: difficulty,
@@ -101,7 +101,7 @@ class App extends Component {
   }
 
   hoverAvatarOn(event) {
-    let avatar = this.setAvatarByLevel(event);
+    const avatar = this.setAvatarByLevel(event);
     this.setState({
       aiAvatarHover: avatar,
     });
