@@ -84,6 +84,7 @@ const StartingPage = props => {
       <Buttons>
         {levels.map(level => (
           <Button
+            key={level}
             small
             onClick={props.changeAvatarAndDifficulty}
             onMouseEnter={props.hoverAvatarOn}

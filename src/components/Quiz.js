@@ -35,11 +35,10 @@ class Quiz extends Component {
 
         // Remove anime & Manga category
         const filteredCategories = data.trivia_categories.filter(item => {
-          if (item.id !== 31) {
-            item.name = item.name.replace(/Entertainment: |Science: /g, '');
-            return item;
-          }
+          item.name = item.name.replace(/Entertainment: |Science: /g, '');
+          return item.id !== 31;
         });
+
         this.setState({
           apiCategoriesList: filteredCategories,
           dataLoaded: true,
@@ -91,8 +90,7 @@ class Quiz extends Component {
           });
         }, 1500);
       }
-    }
-    if (this.state.roundStartedByPlayer === false) {
+    } else if (this.state.roundStartedByPlayer === false) {
       if (
         prevState.selectedAnswersByPlayer !== this.state.selectedAnswersByPlayer
       ) {
