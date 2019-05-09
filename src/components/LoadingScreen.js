@@ -54,7 +54,7 @@ const Circle = styled.div`
   }
 `;
 
-const Loading = () => {
+const LoadingScreen = () => {
   return (
     <FlexContainer>
       <Circle />
@@ -62,4 +62,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingScreen;

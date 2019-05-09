@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import AnswersBar from './AnswerBar';
+import Countdown from './Countdown';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -36,14 +37,12 @@ const ListItem = styled.li`
   padding: 5px;
 `;
 
-// rgba(255, 255, 255, 0.08);
-// rgba(0, 0, 0, 0.51);
-
 const Button = styled.button`
   background-color: ${({ isAnswerCorrect, answered }) =>
     (isAnswerCorrect === 'answerCorrect' && '#4cff9d') ||
     (isAnswerCorrect === 'answerWrongShowCorrect' && '#534f63') ||
     (isAnswerCorrect === 'answerWrong' && '#ff4545') ||
+    (isAnswerCorrect === 'answerTimeOut' && '#534f63') ||
     (answered && 'rgba(255, 255, 255, 0.08)') ||
     '#fff'};
   width: 100%;
@@ -51,6 +50,7 @@ const Button = styled.button`
     (isAnswerCorrect === 'answerCorrect' && '#000') ||
     (isAnswerCorrect === 'answerWrongShowCorrect' && '#fff') ||
     (isAnswerCorrect === 'answerWrong' && '#fff') ||
+    (isAnswerCorrect === 'answerTimeOut' && '#fff') ||
     (answered && 'rgba(0, 0, 0, 0.51)') ||
     '#000'};
   font-size: 2rem;
@@ -58,6 +58,7 @@ const Button = styled.button`
   cursor: pointer;
   border: ${({ isAnswerCorrect }) =>
     (isAnswerCorrect === 'answerWrongShowCorrect' && 'solid #4cff9d 4px') ||
+    (isAnswerCorrect === 'answerTimeOut' && 'solid #ff4545 4px') ||
     'none'};
   border-radius: 5px;
   height: 11.5rem;
@@ -90,11 +91,12 @@ const ClickInfo = styled.span`
 `;
 
 const QuestionView = props => {
+  console.log('render');
   return (
     <FlexContainer onClick={props.continueQuiz}>
       <AnswersBar
         topBar={true}
-        answersArr={props.answersBarLength}
+        answersArr={props.questionsList}
         selectedAnswers={props.selectedAnswersList}
       />
       <Header>
@@ -118,7 +120,6 @@ const QuestionView = props => {
             return (
               <ListItem key={i.toString()}>
                 <Button
-                  onClick={props.getSelectedAnswer}
                   isAnswerCorrect={props.showCorrectAnswer(item)}
                   answered
                   disabled
@@ -130,6 +131,7 @@ const QuestionView = props => {
           }
         })}
       </List>
+      {!props.isQuestionAnswered && <Countdown timeOut={props.isTimeOut} />}
       {props.isQuestionAnswered && <ClickInfo>Tap to continue</ClickInfo>}
     </FlexContainer>
   );

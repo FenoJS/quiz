@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { shuffle } from '../utils/utils';
 import QuestionView from './QuestionView';
-import Loading from './Loading';
+import LoadingScreen from './LoadingScreen';
 
 class Question extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class Question extends Component {
     this.getSelectedAnswer = this.getSelectedAnswer.bind(this);
     this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
     this.continueQuiz = this.continueQuiz.bind(this);
+    this.isTimeOut = this.isTimeOut.bind(this);
   }
 
   async getQuestionsData() {
@@ -76,7 +77,7 @@ class Question extends Component {
   }
 
   getSelectedAnswer(event) {
-    const answer = event.target.innerText;
+    const answer = event ? event.target.innerText : 'answerTimeOut';
     const isAnswerCorrect = answer === this.state.correctAnswer ? true : false;
 
     this.setState({
@@ -87,12 +88,19 @@ class Question extends Component {
   }
 
   showCorrectAnswer(item) {
-    if (this.state.questionAnswered) {
-      if (this.state.correctAnswer !== this.state.selectedAnswer) {
-        if (item === this.state.selectedAnswer) return 'answerWrong';
-        if (item === this.state.correctAnswer) return 'answerWrongShowCorrect';
-      } else if (this.state.correctAnswer === item) return 'answerCorrect';
-    }
+    if (this.state.correctAnswer !== this.state.selectedAnswer) {
+      if (item === this.state.selectedAnswer) return 'answerWrong';
+      if (
+        item === this.state.correctAnswer &&
+        this.state.selectedAnswer === 'answerTimeOut'
+      )
+        return 'answerTimeOut';
+      if (item === this.state.correctAnswer) return 'answerWrongShowCorrect';
+    } else if (this.state.correctAnswer === item) return 'answerCorrect';
+  }
+
+  isTimeOut() {
+    this.getSelectedAnswer();
   }
 
   async continueQuiz() {
@@ -128,14 +136,15 @@ class Question extends Component {
         getSelectedAnswer={this.getSelectedAnswer}
         showCorrectAnswer={this.showCorrectAnswer}
         selectedAnswersList={this.state.selectedAnswersList}
-        answersBarLength={this.state.questions}
+        questionsList={this.state.questions}
+        isTimeOut={this.isTimeOut}
         isQuestionAnswered={this.state.questionAnswered}
         continueQuiz={
           this.state.questionAnswered ? this.continueQuiz : undefined
         }
       />
     ) : (
-      <Loading />
+      <LoadingScreen />
     );
   }
 }

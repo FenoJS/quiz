@@ -3,7 +3,7 @@ import { getAiAnswers, getAiCategory } from '../utils/utils';
 import Category from './Category';
 import Question from './Question';
 import ResultsTable from './ResultsTable';
-import Loading from './Loading';
+import LoadingScreen from './LoadingScreen';
 
 class Quiz extends Component {
   constructor(props) {
@@ -204,7 +204,7 @@ class Quiz extends Component {
         );
       }
     }
-    return <Loading />;
+    return <LoadingScreen />;
   }
 }
 

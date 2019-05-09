@@ -142,8 +142,7 @@ const ResultsTable = props => {
           {roundStartedByAi && <Hidden>hidden</Hidden>}
         </AnswersBar>
       );
-    }
-    else if (round < roundNumber) {
+    } else if (round < roundNumber) {
       return <AnswersBar answersArr={aiAnswers[round - 1]} />;
     }
     return <AnswersBar />;
