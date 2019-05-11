@@ -91,7 +91,6 @@ const ClickInfo = styled.span`
 `;
 
 const QuestionView = props => {
-  console.log('render');
   return (
     <FlexContainer onClick={props.continueQuiz}>
       <AnswersBar
