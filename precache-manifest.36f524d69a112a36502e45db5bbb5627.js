@@ -16,19 +16,19 @@ self.__precacheManifest = [
     "url": "/quiz/static/js/runtime~main.e6ae5a1e.js"
   },
   {
-    "revision": "a9f8985f76d0c5e54c41",
-    "url": "/quiz/static/js/main.a2c4d2bd.chunk.js"
+    "revision": "6719de977576d7546c2d",
+    "url": "/quiz/static/js/main.bde91035.chunk.js"
   },
   {
-    "revision": "4e611effcc216345a3f0",
-    "url": "/quiz/static/js/2.922c48cd.chunk.js"
+    "revision": "9fd70e97da7eeb59ba06",
+    "url": "/quiz/static/js/2.15c4c531.chunk.js"
   },
   {
-    "revision": "a9f8985f76d0c5e54c41",
+    "revision": "6719de977576d7546c2d",
     "url": "/quiz/static/css/main.835aa62c.chunk.css"
   },
   {
-    "revision": "0ff9db81ecf86afffd10194f8f8b50cb",
+    "revision": "55284119234ac39ca8f49e1da6c2f868",
     "url": "/quiz/index.html"
   }
 ];
