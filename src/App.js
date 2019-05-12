@@ -10,6 +10,15 @@ import AiAvatarHard from './img/AiAvatarHard.png';
 
 import './App.css';
 
+// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+window.addEventListener('resize', () => {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+});
+
 const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
@@ -30,6 +39,7 @@ const GlobalStyles = createGlobalStyle`
 
   #root {
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,6 +67,7 @@ const Wrapper = styled.div`
 
   @media (max-width: 500px) {
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100%;
   }
 `;
